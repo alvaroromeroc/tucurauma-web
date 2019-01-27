@@ -35,7 +35,9 @@ $app->get('/site/{id}[/]', function (Request $request, Response $response, array
         ["id" => $id, "active" => 1]
     );
 
-    if($site['id'] == $id):
+    if(($site['id'] != $id ) || ($id == 0)):
+        return $this->view->render($response, '404.php');
+    else:
         $category = $site['categories_id'];
 
         // productos de la tienda
@@ -64,8 +66,6 @@ $app->get('/site/{id}[/]', function (Request $request, Response $response, array
         $data['products'] = $products;
         $data['related'] = $related;
         return $this->view->render($response, 'site.php', $data);
-    else:
-        return $this->view->render($response, '404.php');
     endif;
 });
 
@@ -116,7 +116,6 @@ $app->get('/sites/[{category}/]', function (Request $request, Response $response
             "shops.active" => 1
         ]);
     endif;
-
 
     foreach ($sites as &$site) {
         if ($site['header']=="") $site['header'] = "../default/top.jpg";
