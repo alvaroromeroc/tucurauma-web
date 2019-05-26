@@ -73,7 +73,7 @@
 </section>
 
 <?php
-print_r($data);
+//print_r($data);
 $site = $data['site'];
 $products = $data['products'];
 $related = $data['related'];
