@@ -49,6 +49,7 @@
 
     <section id="filtros">
       <main role="main">
+      <form name="buscarForm" onsubmit="buscar(); return false;" >
         <div class="container ">
           <div class="row">
             <div class="col-lg-6 col-sm-6">
@@ -56,23 +57,18 @@
             </div>
             <div class="col-lg-4 col-sm-4">
               <select class="form-control form-control-sm" id="inputCategoria" name="inputCategoria">
-                <option value="1">Restaurantes</option>
-                <option value="2">Mascotas</option>
-                <option value="3">Ferreterías</option>
-                <option value="4">Bencineras</option>
-                <option value="5">Farmacias</option>
-                <option value="6">Deportes</option>
-                <option value="7">Amasanderías</option>
-                <option value="8">Bancos</option>
-                <option value="9">Taxis</option>
-                <option value="10">Propiedades</option>
+                <?php foreach ($categories as $key) { ?>
+                  <option value="<?=$key['id']?>"><?=$key['category']?></option>
+                <?php } ?>
               </select>
             </div>
             <div class="col-lg-2 col-sm-2">
+              <!--input class="form-control form-control-sm" type="button" id="searchButton" value="Buscar" onclick="buscar()"/-->
               <button class="form-control form-control-sm" type="button" onclick="buscar()"/>Buscar</button>
             </div>
           </div>
         </div>
+        </form>
       </main>
     </section>
 

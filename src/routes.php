@@ -34,6 +34,8 @@ $app->get('/site/{id}[/]', function (Request $request, Response $response, array
     $site = $this->database->get("shops",'*',
         ["id" => $id, "active" => 1]
     );
+    if ($site['header']=="") $site['header'] = "../../default/header.jpg";
+    if ($site['logo']=="") $site['logo'] = "../../default/logo.jpg";
 
     if(($site['id'] != $id ) || ($id == 0)):
         return $this->view->render($response, '404.php');
@@ -118,13 +120,17 @@ $app->get('/sites/[{category}/]', function (Request $request, Response $response
     endif;
 
     foreach ($sites as &$site) {
-        if ($site['header']=="") $site['header'] = "../default/top.jpg";
-        if ($site['logo']=="") $site['logo'] = "../default/logo.jpg";
+        $site['thumb_header'] = ($site['header']=="" ? "../../default/thumbnail-header.jpg" : "thumbnail-header.jpg");
+        $site['thumb_logo'] = ($site['logo']=="" ? "../../default/thumbnail-logo.jpg" : "thumbnail-logo.jpg");
+        if ($site['header']=="") $site['header'] = "../../default/header.jpg";
+        if ($site['logo']=="") $site['logo'] = "../../default/logo.jpg";
     }
 
-
     $data['sites'] = $sites;
-   // $data['fullUrl'] = $_SERVER[REQUEST_SCHEME]."://".$_SERVER[HTTP_HOST].$baseUrl; 
+    // $data['fullUrl'] = $_SERVER[REQUEST_SCHEME]."://".$_SERVER[HTTP_HOST].$baseUrl; 
+
+    $categories = $this->database->select("categories",'*',["featured" => 1]);
+    $data['categories'] = $categories;
 
     return $this->view->render($response, 'sites.php', $data);
 
@@ -236,9 +242,10 @@ $app->get('/buscar/{ids}/[{string}]', function (Request $request, Response $resp
         INNER JOIN <categories> AS <ct> ON <st.category_id> = <ct.id>
         WHERE <ct.id> IN (".$ids.")";*/
     }
-    
-    //$data = $this->database->query($query)->fetchAll();
     $data['sites'] = $sites;
 
+    $categories = $this->database->select("categories",'*',["featured" => 1]);
+    $data['categories'] = $categories;
+    
     return $this->view->render($response, 'buscar.php', $data);
 });

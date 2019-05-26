@@ -73,7 +73,7 @@
 </section>
 
 <?php
-//print_r($data);
+print_r($data);
 $site = $data['site'];
 $products = $data['products'];
 $related = $data['related'];
@@ -91,7 +91,7 @@ $related = $data['related'];
       <div class="container">
         <div class="row">          
           <div class="col-lg-7">
-            <img class="imagen-site" src="<?=$baseUrl?>assets/images/tiendas/<?=$site['id']?>/header.jpg" style="width:100%;">
+            <img class="imagen-site" src="<?=$baseUrl?>assets/images/tiendas/<?=$site['id']?>/<?=$site['header']?>" style="width:100%;">
             <!--img class="logo-site" src="<?=$baseUrl."assets/sites/".$site['id']."/logo.jpg"; ?>" alt="<?=$site['alias']?>"-->
             </div>
         <div class="col-lg-5">

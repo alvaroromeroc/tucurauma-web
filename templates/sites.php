@@ -48,7 +48,7 @@
 
     <section id="filtros">
       <main role="main">
-      <form action="buscar" method="post">
+      <form name="buscarForm" onsubmit="buscar(); return false;" >
         <div class="container ">
           <div class="row">
             <div class="col-lg-6 col-sm-6">
@@ -56,16 +56,9 @@
             </div>
             <div class="col-lg-4 col-sm-4">
               <select class="form-control form-control-sm" id="inputCategoria" name="inputCategoria">
-                <option value="1">Restaurantes</option>
-                <option value="2">Mascotas</option>
-                <option value="3">Ferreterías</option>
-                <option value="4">Bencineras</option>
-                <option value="5">Farmacias</option>
-                <option value="6">Deportes</option>
-                <option value="7">Amasanderías</option>
-                <option value="8">Bancos</option>
-                <option value="9">Taxis</option>
-                <option value="10">Propiedades</option>
+                <?php foreach ($categories as $key) { ?>
+                  <option value="<?=$key['id']?>"><?=$key['category']?></option>
+                <?php } ?>
               </select>
             </div>
             <div class="col-lg-2 col-sm-2">
@@ -90,10 +83,10 @@
             <div class="col-lg-4 col-sm-6 col-12">
               <div class="card mb-4 shadow-sm">
                 <a href="<?= $baseUrl."site/".$valor['id_shops']."-".$valor['alias']; ?>">
-                  <img class="card-img-top" src="<?=$baseUrl?>assets/images/tiendas/<?=$valor['id_shops']?>/thumbnail-<?=$valor['header']?>" alt="Card image cap">
+                  <img class="card-img-top" src="<?=$baseUrl?>assets/images/tiendas/<?=$valor['id_shops']?>/<?=$valor['thumb_header']?>" alt="Card image cap">
                 </a>
                 <div class="card-body">
-                  <img class="logo-card" src="<?=$baseUrl?>assets/images/tiendas/<?=$valor['id_shops']?>/thumbnail-<?=$valor['logo']?>" alt="Card image cap">
+                  <img class="logo-card" src="<?=$baseUrl?>assets/images/tiendas/<?=$valor['id_shops']?>/<?=$valor['thumb_logo']?>" alt="Card image cap">
                   <p class="card-text"><strong><?=$valor['name']?></strong><br/>
                   <?=$valor['category']?></p>
                   <a  href="<?= $baseUrl."site/".$valor['id_shops']."-".$valor['alias']; ?>" class="btn btn-success" role="button">Visitar</a>

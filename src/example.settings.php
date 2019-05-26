@@ -1,9 +1,14 @@
 <?php
 return [
     'settings' => [
-        'displayErrorDetails' => true, // set to true in production
+        'displayErrorDetails' => false, // set to true in production
         'addContentLengthHeader' => false,
-        
+
+        // Renderer settings
+        'renderer' => [
+            'base_url' => '/tucurauma.cl/web/',
+        ],
+
         // database
       	'database' =>[
                 'db_type'   => '',

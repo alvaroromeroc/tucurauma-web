@@ -109,48 +109,15 @@ Welcome Slider
       <div class="row">
       <div class="col-lg-2 col-sm-2 col-sx-12 filtros-left">
           <h3>Buscar Servicios</h3>
-              <!--label for="raddressInput">Lugares:</label-->
-              <!--input type="hidden" id="addressInput" value="macul" size="15"-->
+
+          <?php $categories = $data['categories'] ?>
+          <?php foreach ($categories as $key) { ?>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="inputCategoria1" name="inputCategoria" value="1">
-                <label class="form-check-label restaurantes-icon" for="inputCategoria1">Restaurantes</label>
+                <input class="form-check-input" type="checkbox" id="inputCategoria<?=$key['id']?>" name="inputCategoria" value="<?=$key['id']?>">
+                <label class="form-check-label <?=$key['icon']?>-icon" for="inputCategoria<?=$key['id']?>" data-toggle="tooltip" data-placement="bottom" title="<?=$key['description']?>"><?=$key['category']?></label>
               </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="inputCategoria2" name="inputCategoria" value="2">
-                <label class="form-check-label mascotas-icon" for="inputCategoria2">Mascotas</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="inputCategoria3" name="inputCategoria" value="3">
-                <label class="form-check-label ferreterias-icon" for="inputCategoria3">Ferreterías</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="inputCategoria4" name="inputCategoria" value="4">
-                <label class="form-check-label bencineras-icon" for="inputCategoria4">Bencineras</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="inputCategoria5" name="inputCategoria" value="5">
-                <label class="form-check-label farmacias-icon" for="inputCategoria5">Farmacias</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="inputCategoria6" name="inputCategoria" value="6">
-                <label class="form-check-label deportes-icon" for="inputCategoria6">Deportes</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="inputCategoria7" name="inputCategoria" value="7">
-                <label class="form-check-label amasanderias-icon" for="inputCategoria7">Amasanderías</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="inputCategoria8" name="inputCategoria" value="8">
-                <label class="form-check-label bancos-icon" for="inputCategoria8">Bancos</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="inputCategoria9" name="inputCategoria" value="9">
-                <label class="form-check-label taxis-icon" for="inputCategoria9">Taxis</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="inputCategoria10" name="inputCategoria" value="10">
-                <label class="form-check-label propiedades-icon" for="inputCategoria10">Propiedades</label>
-              </div>
+          <?php } ?>
+
               <div>
                 <select id="locationSelect" style="width: 90%; visibility: hidden"></select>
               </div>
@@ -168,7 +135,7 @@ Welcome Slider
 
     <section id="filtros">
       <main role="main">
-      <form action="buscar" method="post">
+      <form name="buscarForm" onsubmit="buscar(); return false;" >
         <div class="container ">
           <div class="row">
             <div class="col-lg-6 col-sm-6">
@@ -176,16 +143,9 @@ Welcome Slider
             </div>
             <div class="col-lg-4 col-sm-4">
               <select class="form-control form-control-sm" id="inputCategoria" name="inputCategoria">
-                <option value="1">Restaurantes</option>
-                <option value="2">Mascotas</option>
-                <option value="3">Ferreterías</option>
-                <option value="4">Bencineras</option>
-                <option value="5">Farmacias</option>
-                <option value="6">Deportes</option>
-                <option value="7">Amasanderías</option>
-                <option value="8">Bancos</option>
-                <option value="9">Taxis</option>
-                <option value="10">Propiedades</option>
+                <?php foreach ($categories as $key) { ?>
+                  <option value="<?=$key['id']?>"><?=$key['category']?></option>
+                <?php } ?>
               </select>
             </div>
             <div class="col-lg-2 col-sm-2">
@@ -208,13 +168,11 @@ Welcome Slider
         <div Class="row section-xs">
         
           <!--img src="assets/img/servicios.jpg"-->
-          <?php $categories = $data['categories'] ?>
-          <?php //print_r($categories) ?>
           <?php foreach ($categories as $key) { ?>
               <div class="col-lg-3 col-sm-4 col-6">
                 <div class="text-center">
                   <a href="<?=$baseUrl."sites/".$key['id']."-".$key['category']."/"?>">
-                    <img class="" src="assets/img/logo_<?=$key['icon']?>" alt="<?=$key['category']?>">
+                    <img class="" src="assets/img/logo_<?=$key['icon']?>.png" alt="<?=$key['category']?>">
                   </a>
                   <div class="">
                     <p class="font-weight-bold">
@@ -308,7 +266,7 @@ Start Call To Action
             <!--label for="exampleTextarea">Comentario</label-->
             <textarea class="form-control" id="exampleTextarea" rows="3" placeholder="Comentario"></textarea>
           </div>
-          <button type="submit" class="btn btn-success">Enviar</button>
+          <button type="submit" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Tooltip on top">Enviar</button>
         </form>
 				
 			</div>
@@ -480,7 +438,7 @@ Start Call To Action
                   parseFloat(markerNodes[i].getAttribute("lng")));
 
              //createOption(name, distance, i);
-             createMarker(latlng, id, name, direccion, header, icono, horario, link);
+             createMarker(latlng, id, name, direccion, header, icono+".png", horario, link);
              bounds.extend(latlng);
            }
            if (bounds!="((1, 180), (-1, -180))") 
@@ -592,12 +550,17 @@ Start Call To Action
     //});
   </script>
 
+<script>
+	$(function () {
+		$('[data-toggle="tooltip"]').tooltip()
+	})
+</script>
+
   <script>
     //$("#searchButton").onClick(alert("click"));
     function buscar(){
       var id    = $("#inputCategoria").val();
       var text  = $("#inputTexto").val();
-      //alert(id);
       window.location.href = 'buscar/'+ id +'/' + text;
     }
 
