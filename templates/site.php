@@ -165,10 +165,10 @@ $related = $data['related'];
             <div class="col-lg-4 col-sm-6 col-12">
               <div class="card mb-4 shadow-sm">
                 <a href="<?=$baseUrl?>site/<?=$rel_site['id']?>-<?=$rel_site['alias']?>">
-                  <img class="card-img-top" src="<?=$baseUrl?>assets/images/tiendas/<?=$rel_site['id']?>/thumbnail-<?=$rel_site['header']?>" alt="Card image cap">
+                  <img class="card-img-top" src="<?=$baseUrl?>assets/images/tiendas/<?=$rel_site['id']?>/<?=$rel_site['thumb_header']?>" alt="<?=$rel_site['name']?>">
                 </a>
                 <div class="card-body">
-                  <img class="logo-card" src="<?=$baseUrl?>assets/images/tiendas/<?=$rel_site['id']?>/thumbnail-<?=$rel_site['logo']?>" alt="<?=$rel_site['name']?>">
+                  <img class="logo-card" src="<?=$baseUrl?>assets/images/tiendas/<?=$rel_site['id']?>/<?=$rel_site['thumb_logo']?>" alt="<?=$rel_site['name']?>">
                   <p class="card-text"><?=$rel_site['name']?></p>
                   <p><a  href="<?= $baseUrl."site/".$rel_site['id']."-".$rel_site['alias']; ?>" class="btn btn-success" role="button">Visitar</a></p>
                 </div>
@@ -181,12 +181,7 @@ $related = $data['related'];
 <?php endif; ?>
 
 
-<footer id="footer" class="bg-one">
-  <div class="footer-bottom">
-    <h5>Tu Curauma <?=date('Y')?>. All rights reserved.</h5>
-    <h6>Design and Developed by <a href="https://www.pezgato.cl">PezGato</a></h6>
-  </div>
-</footer>
+<?php include('layouts/footer.php');?>
 
   <script>
     var map;

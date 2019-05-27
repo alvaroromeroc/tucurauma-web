@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
+    <title>Tu Curauma</title>
 <?php include('layouts/head.php');?>
   </head>
   <body id="page-top">

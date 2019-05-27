@@ -35,6 +35,15 @@
   <link href="<?= $baseUrl; ?>assets/css/style.css" rel="stylesheet">
   <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.5.0/css/all.css' integrity='sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU' crossorigin='anonymous'>
 
+  <style>
+  <?php foreach ($categories as $key) { ?>
+    .<?=$key['category']?>-icon{
+      background: url('img/icon/icon-<?=$key['icon']?>.png');
+      filter: grayscale(100%);
+    }
+  <?php } ?>
+  </style>
+
   
 
 </head>
@@ -523,27 +532,11 @@ Start Call To Action
 <script>
      //$(document).ready(function () {
       $( "input[name='inputCategoria']" ).click(function() {
-        if ($('#inputCategoria1').is(':checked')) $( ".restaurantes-icon").css("filter","grayscale(0%)");
-        else $( ".restaurantes-icon").css("filter","grayscale(100%)");
-        if ($('#inputCategoria2').is(':checked')) $( ".mascotas-icon").css("filter","grayscale(0%)");
-        else $( ".mascotas-icon").css("filter","grayscale(100%)");
-        if ($('#inputCategoria3').is(':checked')) $( ".ferreterias-icon").css("filter","grayscale(0%)");
-        else $( ".ferreterias-icon").css("filter","grayscale(100%)");
-        if ($('#inputCategoria4').is(':checked')) $( ".bencineras-icon").css("filter","grayscale(0%)");
-        else $( ".bencineras-icon").css("filter","grayscale(100%)");
-        if ($('#inputCategoria5').is(':checked')) $( ".farmacias-icon").css("filter","grayscale(0%)");
-        else $( ".farmacias-icon").css("filter","grayscale(100%)");
-        if ($('#inputCategoria6').is(':checked')) $( ".deportes-icon").css("filter","grayscale(0%)");
-        else $( ".deportes-icon").css("filter","grayscale(100%)");
-        if ($('#inputCategoria7').is(':checked')) $( ".amasanderias-icon").css("filter","grayscale(0%)");
-        else $( ".amasanderias-icon").css("filter","grayscale(100%)");
-        if ($('#inputCategoria8').is(':checked')) $( ".bancos-icon").css("filter","grayscale(0%)");
-        else $( ".bancos-icon").css("filter","grayscale(100%)");
-        if ($('#inputCategoria9').is(':checked')) $( ".taxis-icon").css("filter","grayscale(0%)");
-        else $( ".taxis-icon").css("filter","grayscale(100%)");
-        if ($('#inputCategoria10').is(':checked')) $( ".propiedades-icon").css("filter","grayscale(0%)");
-        else $( ".propiedades-icon").css("filter","grayscale(100%)");
 
+        <?php foreach ($categories as $key) { ?>
+          if ($('#inputCategoria<?=$key['id']?>').is(':checked')) $( ".<?=$key['icon']?>-icon").css("filter","grayscale(0%)");
+          else $( ".<?=$key['icon']?>-icon").css("filter","grayscale(100%)");
+        <?php } ?>
 
         searchLocationsNear();
       });

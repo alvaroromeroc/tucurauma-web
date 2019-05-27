@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
-    <title>tu curauma</title>
+    <title>Tu Curauma</title>
 <?php include('layouts/head.php');?>
     <style>
       #map { height: 500px; }
@@ -83,10 +83,10 @@
             <div class="col-lg-4 col-sm-6 col-12">
               <div class="card mb-4 shadow-sm">
                 <a href="<?= $baseUrl."site/".$valor['id_shops']."-".$valor['alias']; ?>">
-                  <img class="card-img-top" src="<?=$baseUrl?>assets/images/tiendas/<?=$valor['id_shops']?>/<?=$valor['thumb_header']?>" alt="Card image cap">
+                  <img class="card-img-top" src="<?=$baseUrl?>assets/images/tiendas/<?=$valor['id_shops']?>/<?=$valor['thumb_header']?>" alt="<?=$valor['name']?>">
                 </a>
                 <div class="card-body">
-                  <img class="logo-card" src="<?=$baseUrl?>assets/images/tiendas/<?=$valor['id_shops']?>/<?=$valor['thumb_logo']?>" alt="Card image cap">
+                  <img class="logo-card" src="<?=$baseUrl?>assets/images/tiendas/<?=$valor['id_shops']?>/<?=$valor['thumb_logo']?>" alt="<?=$valor['name']?>">
                   <p class="card-text"><strong><?=$valor['name']?></strong><br/>
                   <?=$valor['category']?></p>
                   <a  href="<?= $baseUrl."site/".$valor['id_shops']."-".$valor['alias']; ?>" class="btn btn-success" role="button">Visitar</a>

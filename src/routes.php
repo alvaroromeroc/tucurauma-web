@@ -49,7 +49,7 @@ $app->get('/site/{id}[/]', function (Request $request, Response $response, array
             ]
         );
         foreach ($products as &$product) {
-            if ($product['image']=="") $product['image'] = "../default/product.jpg";
+            if ($product['image']=="") $product['image'] = "../../default/product.jpg";
         }        
 
         // tiendas relacionadas
@@ -62,6 +62,11 @@ $app->get('/site/{id}[/]', function (Request $request, Response $response, array
                 "LIMIT" => 3
             ]
         );
+        foreach ($related as &$rel) {
+            $rel['thumb_header'] = ($rel['header']=="" ? "../../default/thumbnail-header.jpg" : "thumbnail-header.jpg");
+            $rel['thumb_logo'] = ($rel['logo']=="" ? "../../default/thumbnail-logo.jpg" : "thumbnail-logo.jpg");
+        }
+
         
         // cargo la variable
         $data['site'] = $site;
