@@ -456,7 +456,12 @@ Start Call To Action
        }
 
        function createMarker(latlng, id, name, direccion, header, icono, horario, link) {
-          var image = 'assets/img/icon/'+ icono;
+          //var image = 'assets/img/icon/'+ icono;
+          var image = {
+            url: 'assets/img/icon/'+ icono,
+            scaledSize: new google.maps.Size(25, 25),
+            };
+
           var html = "<div style=\"float:left; padding-right:5px; \"><img src=\"assets/images/tiendas/"+id+"/" + "thumbnail-" + header + "\" width=\"100px\"></div><div style=\"float:right; width: 130px;\"><b>" + name + "</b><br/><sub>" + direccion + "</sub><hr/>" + horario + "<br/><br /><a href=\"site/" +link + "\" target=\"_blank\">Más información</a></div>"; 
           var marker = new google.maps.Marker({
             map: map,
