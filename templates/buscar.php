@@ -85,10 +85,10 @@
               <div class="col-lg-4 col-sm-6 col-12">
                 <div class="card mb-4 shadow-sm">
                   <a href="<?= $baseUrl."site/".$valor['id']."-".$valor['alias']; ?>">
-                    <img class="card-img-top" src="<?=$baseUrl?>assets/images/tiendas/<?=$valor['id']?>/thumbnail-<?=$valor['header']?>" alt="Card image cap">
+                    <img class="card-img-top" src="<?=$baseUrl?>assets/images/tiendas/<?=$valor['id']?>/<?=$valor['thumb_header']?>" alt="<?=$valor['name']?>">
                   </a>
                   <div class="card-body">
-                    <img class="logo-card" src="<?=$baseUrl?>assets/images/tiendas/<?=$valor['id']?>/thumbnail-<?=$valor['logo']?>" alt="Card image cap" width="100px" height="100px">
+                    <img class="logo-card" src="<?=$baseUrl?>assets/images/tiendas/<?=$valor['id']?>/<?=$valor['thumb_logo']?>" alt="Logo<?=$valor['name']?>" width="100px" height="100px">
                     <p class="card-text"><strong><?=$valor['name']?></strong><br/>
                     <?=$valor['category']?></p>
                     <a  href="<?= $baseUrl."site/".$valor['id']."-".$valor['alias']; ?>" class="btn btn-success" role="button">Visitar</a>

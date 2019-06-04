@@ -153,10 +153,17 @@ $app->get('/locationxml/{ids}/[{string}]', function (Request $request, Response 
     FROM <shops> AS <st>
     INNER JOIN <categories> AS <ct> ON <st.categories_id> = <ct.id>
     WHERE <ct.id> IN (".$ids.") AND <st.active> = 1";
-
     
     $sites = $this->database->query($query)->fetchAll();
+
+    foreach ($sites as &$site) {
+        $site['header'] = ($site['header']=="" ? "../../default/thumbnail-header.jpg" : "thumbnail-header.jpg");
+    }
+
+
     $data['sites'] = $sites;
+
+
 
     $this->view->render($response, 'locationxml.php', $data);
     //return $this->response->withHeader('Content-Type','text/xml');
@@ -247,6 +254,14 @@ $app->get('/buscar/{ids}/[{string}]', function (Request $request, Response $resp
         INNER JOIN <categories> AS <ct> ON <st.category_id> = <ct.id>
         WHERE <ct.id> IN (".$ids.")";*/
     }
+
+    foreach ($sites as &$site) {
+        $site['thumb_header'] = ($site['header']=="" ? "../../default/thumbnail-header.jpg" : "thumbnail-header.jpg");
+        $site['thumb_logo'] = ($site['logo']=="" ? "../../default/thumbnail-logo.jpg" : "thumbnail-logo.jpg");
+        if ($site['header']=="") $site['header'] = "../../default/header.jpg";
+        if ($site['logo']=="") $site['logo'] = "../../default/logo.jpg";
+    }
+
     $data['sites'] = $sites;
 
     $categories = $this->database->select("categories",'*',["featured" => 1]);

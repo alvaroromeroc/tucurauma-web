@@ -46,5 +46,3 @@ $container['database'] = function ($c) {
 		'charset'       => $settings['charset'],
     ]);
 };
-
-
