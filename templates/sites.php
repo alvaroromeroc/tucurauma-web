@@ -152,7 +152,7 @@
         //alert(num);
         $.ajax({
             type: 'GET',
-            url: 'http://localhost/tucurauma.cl/web/locationjson/<?=$ids ?>/' + num + '/',
+            url: '<?= $baseUrl; ?>locationjson/<?=$ids ?>/' + num + '/',
             success: function(response) { // <= this is the change
                 //alert((num-1)*12);
                 var data = response; // <= going inside the data itself
