@@ -9,8 +9,14 @@ $app->get('/', function (Request $request, Response $response, array $args) {
     $this->logger->info("homepage '/' ");
 
     $categories = $this->database->select("categories",'*',["featured" => 1]);
+
+    $tags = $this->database->select("tags",'*',["ORDER"=>["title"=>"ASC"]]);
+
+
+    //$cat_tags = $this->database->select("shops_tags",'*',["" => 1]);
     
     $data['categories'] = $categories;
+    $data['tags']       = $tags;
 
     return $this->view->render($response, 'homepage.php',$data);
 });
@@ -132,8 +138,9 @@ $app->get('/sites/[{category}/]', function (Request $request, Response $response
     }
 
     $data['sites'] = $sites;
-    // $data['fullUrl'] = $_SERVER[REQUEST_SCHEME]."://".$_SERVER[HTTP_HOST].$baseUrl; 
-
+    if(isset($args['category'])){ $data['ids'] = $id;}
+    else {$data['ids'] = 0;}
+    
     $categories = $this->database->select("categories",'*',["featured" => 1]);
     $data['categories'] = $categories;
 
@@ -172,26 +179,102 @@ $app->get('/locationxml/{ids}/[{string}]', function (Request $request, Response 
 });
 
 
-
-/*$app->get('/buscar/{id}/[{string}]', function (Request $request, Response $response, array $args) {
-    $this->logger->info("buscar '/' id =".$args['string']);
+$app->get('/locationxml2/{ids}/{tags}/[{string}]', function (Request $request, Response $response, array $args) {
+    // Sample log message
+    //$this->logger->info("sitio '/' id =".$args['id']);
 
     $ids    = $args['ids'];
+    $tags   = $args['tags'];
+    if(isset( $args['string'])) $string = $args['string']; else $string = "";
+    
 
-    $query = "SELECT <st.id>, <st.name>, <st.alias>, <st.header>, <st.address>, <st.lat>, <st.lng>, <st.schedule>, <ct.category>, <ct.icon>
-    FROM <shops> AS <st>
-    INNER JOIN <categories> AS <ct> ON <st.categories_id> = <ct.id>
-    WHERE <ct.id> IN (".$ids.") AND <st.active> = 1";
+    if($tags=="0") { //sin tags
+        $query = "SELECT <sh.id>, <sh.name>, <sh.alias>, <sh.header>, <sh.address>, <sh.lat>, <sh.lng>, <sh.schedule>, <ct.category>, <ct.icon>
+        FROM <shops> AS <sh>
+        INNER JOIN <categories> AS <ct> ON <sh.categories_id> = <ct.id>
+        WHERE <ct.id> IN (".$ids.") AND <sh.active> = 1";
+    }
+    else { //multiples tags
+        $query = "SELECT <sh.id>, <sh.name>, <sh.alias>, <sh.header>, <sh.address>, <sh.lat>, <sh.lng>, <sh.schedule>, <ct.category>, <ct.icon>
+        FROM <tags> AS <tg>
+            INNER JOIN <shops_tags> AS <st> ON <tg.id> = <st.tag_id>
+            INNER JOIN <shops> AS <sh> ON <st.shop_id> = <sh.id>
+            INNER JOIN <categories> AS <ct> ON <sh.categories_id> = <ct.id>
+        WHERE
+            <ct.id> IN (".$ids.")
+            AND <tg.id> IN (".$tags.")
+            AND <sh.active> = 1
+            ";
+    }
+
+    /*if($string !=""); {
+        $query = $query . " AND <sh.name> LIKE '%".$string."%'";
+    }*/
+    //echo $query;
+
+
 
     
     $sites = $this->database->query($query)->fetchAll();
+
+    foreach ($sites as &$site) {
+        $site['header'] = ($site['header']=="" ? "../../default/thumbnail-header.jpg" : "thumbnail-header.jpg");
+    }
+
+
     $data['sites'] = $sites;
+
+
 
     $this->view->render($response, 'locationxml.php', $data);
     //return $this->response->withHeader('Content-Type','text/xml');
     return $response->withStatus(200)
         ->withHeader('Content-Type', 'text/xml');
-});*/
+});
+
+
+
+
+$app->get('/locationjson/{ids}/{limit}/[{string}]', function (Request $request, Response $response, array $args) {
+    // Sample log message
+    //$this->logger->info("sitio '/' id =".$args['id']);
+
+    $ids    = $args['ids'];
+    $limit  = $args['limit'];
+    $inicio = ($limit-1)*12;
+    //$fin    = $limit*12;
+
+    if($ids==0):
+        $query = "SELECT <st.id>, <st.name>, <st.alias>, <st.header>, <st.logo>, <st.address>, <st.lat>, <st.lng>, <st.schedule>, <ct.category>, <ct.icon>
+        FROM <shops> AS <st>, <categories> AS <ct>
+        WHERE <st.active> = 1 AND <st.categories_id> = <ct.id>
+        LIMIT ".$inicio.",12";
+    else:
+        $query = "SELECT <st.id>, <st.name>, <st.alias>, <st.header>, <st.logo>, <st.address>, <st.lat>, <st.lng>, <st.schedule>, <ct.category>, <ct.icon>
+        FROM <shops> AS <st>
+        INNER JOIN <categories> AS <ct> ON <st.categories_id> = <ct.id>
+        WHERE <ct.id> IN (".$ids.") AND <st.active> = 1
+        LIMIT ".$inicio.",12";        
+    endif;
+    //echo $args['ids'];
+    //echo $query;
+    
+    $sites = $this->database->query($query)->fetchAll();
+
+    foreach ($sites as &$site) {
+        $site['header'] = ($site['header']=="" ? "../../default/thumbnail-header.jpg" : "thumbnail-header.jpg");
+        $site['logo'] = ($site['logo']=="" ? "../../default/thumbnail-logo.jpg" : "thumbnail-logo.jpg");
+    }
+
+    $data['sites'] = $sites;
+
+    $this->view->render($response, 'locationjson.php', $data);
+    //return $this->response->withHeader('Content-Type','text/xml');
+    return $response->withStatus(200)
+        ->withHeader('Content-Type', 'application/json');
+});
+
+
 
 
 $app->get('/buscar/{ids}/[{string}]', function (Request $request, Response $response, array $args) {

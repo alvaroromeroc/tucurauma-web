@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/themefisher.style.css">
     <!-- bootstrap.min css -->
     <link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/bootstrap-select.min.css">
     <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"-->
     <!-- Slick Carousel -->
     <!--link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/slick.css">
@@ -85,7 +86,7 @@
 
     <?php include('layouts/navigation.php');?>
 
-    <section class="header  navigation">
+    <section class="header navigation">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -126,27 +127,37 @@ Welcome Slider
     <section id="mapa">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-2 col-sm-2 col-sx-12 filtros-left">
-                    <h3>Buscar Servicios</h3>
+                <div class="col-lg-2 col-sm-3 col-sx-12 pr-2 pl-2 pt-1 pb-1 filtros-left">
+                    <h3 class="d-none d-sm-block">Buscar Servicios</h3>
 
-                    <?php $categories = $data['categories'] ?>
-                    <?php foreach ($categories as $key) { ?>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="inputCategoria<?=$key['id']?>"
-                            name="inputCategoria" value="<?=$key['id']?>">
-                        <label class="form-check-label <?=$key['icon']?>-icon" for="inputCategoria<?=$key['id']?>"
-                            data-toggle="tooltip" data-placement="bottom"
-                            title="<?=$key['description']?>"><?=$key['category']?></label>
-                    </div>
-                    <?php } ?>
-
-                    <div>
-                        <select id="locationSelect" style="width: 90%; visibility: hidden"></select>
+                    <div class="pb-2">
+                        <?php $categories = $data['categories'] ?>
+                        <?php foreach ($categories as $key) { ?>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="inputCategoria<?=$key['id']?>"
+                                name="inputCategoria" value="<?=$key['id']?>">
+                            <label class="form-check-label <?=$key['icon']?>-icon" for="inputCategoria<?=$key['id']?>" ><?=$key['category']?></label>
+                        </div>
+                        <?php } ?>
                     </div>
 
-                    <!--input type="button" id="searchButton" value="Buscar"-->
+                    <div class="pb-2">
+                        <?php $tags = $data['tags'] ?>
+                        <select class="selectpicker form-control" id="inputEtiqueta" name="inputEtiqueta" title="Etiquetas" data-hide-disabled="true" multiple data-actions-box="true" data-done-button="true">
+                            <?php foreach ($tags as $key) { ?>
+                                <option data-content="<span class='badge badge-success'><?=$key['title']?></span>" value="<?=$key['id']?>" selected><?=$key['title']?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+
+                    <!--div class="pb-1">
+                        <input type="text" class="form-control " id="inputNombre" name="inputNombre">
+                    </div-->
+
+                    <input type="button" class="btn btn-success btn-block" id="searchMapButton" value="Buscar" onclick="searchLocationsNear()">
                 </div>
-                <div class="col-lg-10 col-sm-10 col-sx-12">
+                <!-- MAP --> 
+                <div class="col-lg-10 col-sm-9 col-sx-12">
                     <div id="map" style="width: 100%; height: 700px"></div>
                 </div>
             </div>
@@ -172,7 +183,7 @@ Welcome Slider
                             </select>
                         </div>
                         <div class="col-lg-2 col-sm-2">
-                            <!--input class="form-control form-control-sm" type="button" id="searchButton" value="Buscar" onclick="buscar()"/-->
+                            <!--input class="form-control form-control-sm" type="button" id="searchButtonMap" value="Buscar" onclick="buscar()"/-->
                             <button class="form-control form-control-sm" type="button"
                                 onclick="buscar()" />Buscar</button>
                         </div>
@@ -273,7 +284,7 @@ Start Call To Action
             <div class="row">
                 <div class="col-md-6 text-center">
                     <h2>Contáctenos</h2>
-                    <p>Proin gravida nibh vel velit auctor aliquet. Aenean sollicudin bibendum auctor</p>
+                    <p>Escríbanos para incorporar su aviso clasificado o la información de su negocio.</p>
                     <form>
                         <div class="form-group">
                             <!--label for="exampleInputEmail1">Nombre</label-->
@@ -393,7 +404,6 @@ Start Call To Action
     var map;
     var markers = [];
     var infoWindow;
-    var locationSelect;
 
     function initMap() {
         var curauma = {
@@ -439,7 +449,18 @@ Start Call To Action
             listado.push($(this).val());
         });
 
-        var searchUrl = 'locationxml/' + listado + "/";
+
+        var selO = document.getElementsByName('inputEtiqueta')[0];
+        var etiquetas = [0];
+        for (i = 0; i < selO.length; i++) {
+            if (selO.options[i].selected) {
+                etiquetas.push(selO.options[i].value);
+            }
+        }
+
+        var texto= $("#inputNombre").val();
+
+        var searchUrl = 'locationxml2/' + listado + '/' + etiquetas + '/' + texto;
         downloadUrl(searchUrl, function(data) {
             var xml = parseXml(data);
             var markerNodes = xml.documentElement.getElementsByTagName("marker");
@@ -535,6 +556,7 @@ Start Call To Action
     <!-- Bootstrap -->
     <script src="<?= $baseUrl; ?>assets/js/popper.min.js"></script>
     <script src="<?= $baseUrl; ?>assets/js/bootstrap.min.js"></script>
+    <script src="<?= $baseUrl; ?>assets/js/bootstrap-select.min.js"></script>
     <!-- Owl Carousel -->
     <!--script src="<?= $baseUrl; ?>assets/js/slick.min.js"></script-->
     <!-- Smooth Scroll js -->
@@ -554,7 +576,7 @@ Start Call To Action
             else $(".<?=$key['icon']?>-icon").css("filter", "grayscale(100%)");
             <?php } ?>
 
-            searchLocationsNear();
+            //searchLocationsNear();
         });
 
         $(function() {

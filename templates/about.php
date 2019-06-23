@@ -50,7 +50,7 @@
         <div class="row">
           <div class="col-lg-8 mx-auto">
             <h2>Acerca de Curauma</h2>
-            <p class="lead">Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem IpsumLorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum</p>
+            <p class="lead">TUCURAUMA.CL es un portal web dedicado a promover y visibilizar todos los negocios de Curauma y Placilla, de manera rápida y actualizada a través de un mapa interactivo que filtrará cada negocio según su especialidad.</p>
           </div>
         </div>
       </div>
