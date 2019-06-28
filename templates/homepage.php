@@ -145,7 +145,7 @@ Welcome Slider
                         <?php $tags = $data['tags'] ?>
                         <select class="selectpicker form-control" id="inputEtiqueta" name="inputEtiqueta" title="Etiquetas" data-hide-disabled="true" multiple data-actions-box="true" data-done-button="true">
                             <?php foreach ($tags as $key) { ?>
-                                <option data-content="<span class='badge badge-success'><?=$key['title']?></span>" value="<?=$key['id']?>" selected><?=$key['title']?></option>
+                                <option data-content="<span class='badge badge-success'><?=$key['title']?></span>" value="<?=$key['id']?>"><?=$key['title']?></option>
                             <?php } ?>
                         </select>
                     </div>
