@@ -40,7 +40,7 @@
 
     <style>
     <?php foreach ($categories as $key) {
-        ?>.<?=$key['category']?>-icon {
+        ?>.<?=$key['icon']?>-icon {
             background: url('img/icon/icon-<?=$key['icon']?>.png');
             filter: grayscale(100%);
         }
