@@ -3,6 +3,7 @@
         "slim/slim": "^3.0",
         "slim/php-view": "^2.2",
         "monolog/monolog": "^1.17",
-        "catfan/medoo": "^1.6"
+        "catfan/medoo": "^1.6",
+        "phpmailer/phpmailer": "^6.0"
     }
 }

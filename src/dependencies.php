@@ -1,6 +1,8 @@
 <?php
 // DIC configuration
 use Medoo\Medoo;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 $container = $app->getContainer();
 
@@ -45,4 +47,12 @@ $container['database'] = function ($c) {
 		'password'      => $settings['password'],
 		'charset'       => $settings['charset'],
     ]);
+};
+
+
+//PHPMailer
+$container['mailer'] = function ($c) {
+    $settings = $c->get('settings')['mailer'];
+    $mailer = new PHPMailer(true);
+    return $mailer;
 };

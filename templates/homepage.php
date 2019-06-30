@@ -285,7 +285,7 @@ Start Call To Action
                 <div class="col-md-6 text-center">
                     <h2>Contáctenos</h2>
                     <p>Escríbanos para incorporar su aviso clasificado o la información de su negocio.</p>
-                    <form>
+                    <form name="mensaje" method="post" action="<?= $baseUrl; ?>mensaje/">
                         <div class="form-group">
                             <!--label for="exampleInputEmail1">Nombre</label-->
                             <input type="text" class="form-control" id="inputNombre" name="inputNombre"
@@ -293,7 +293,7 @@ Start Call To Action
                         </div>
                         <div class="form-group">
                             <!--label for="exampleInputEmail1">Email address</label-->
-                            <input type="email" class="form-control" id="inputEmail" name="inputEmail"
+                            <input type="email" class="form-control" id="inputCorreo" name="inputCorreo"
                                 aria-describedby="emailHelp" placeholder="e-mail">
                             <!--small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small-->
                         </div>
@@ -304,7 +304,7 @@ Start Call To Action
                         </div>
                         <div class="form-group">
                             <!--label for="exampleTextarea">Comentario</label-->
-                            <textarea class="form-control" id="exampleTextarea" rows="3"
+                            <textarea class="form-control" id="inputMensaje" name="inputMensaje" rows="3"
                                 placeholder="Comentario"></textarea>
                         </div>
                         <button type="submit" class="btn btn-success" data-toggle="tooltip" data-placement="top"
@@ -561,7 +561,7 @@ Start Call To Action
     <!--script src="<?= $baseUrl; ?>assets/js/slick.min.js"></script-->
     <!-- Smooth Scroll js -->
     <script src="<?= $baseUrl; ?>assets/js/smooth-scroll.min.js"></script>
-    <!--script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC72vZw-6tGqFyRhhg5CkF2fqfILn2Tsw"></script-->
+    <!--script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3SehR2bcruYousvuclSYAVoWhBoGP-Eo"></script-->
 
     <!-- Custom js -->
     <script src="<?= $baseUrl; ?>assets/js/script.js"></script>

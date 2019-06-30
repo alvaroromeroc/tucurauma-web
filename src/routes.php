@@ -352,3 +352,73 @@ $app->get('/buscar/{ids}/[{string}]', function (Request $request, Response $resp
     
     return $this->view->render($response, 'buscar.php', $data);
 });
+
+
+
+$app->post('/mensaje/',function(Request $request, Response $response, array $args) {
+    $this->logger->info("mensaje '/' ");
+
+    $data = $request->getParams();
+
+    //$this->mailer->
+
+    $message = "
+    <p>Nuevo Mensaje de TuCurauma.cl</p>
+
+    <br/>
+    
+    <table style=\"border-collapse: collapse; border: 1px solid grey; \">
+    <tbody>
+        <tr>
+            <td style=\"border: 1px solid grey; background-color:#f8f8f8; padding: 2px 7px;\"><p><strong>Nombre</strong></p></td>
+            <td style=\"border: 1px solid grey; padding: 2px 7px;\"><p>".$data['inputNombre']."</p></td>
+        </tr>
+        <tr>
+            <td style=\"border: 1px solid grey; background-color:#f8f8f8; padding: 2px 7px;\"><p><strong>Correo</strong></p></td>
+            <td style=\"border: 1px solid grey; padding: 2px 7px;\"><p>".$data['inputCorreo']."</p></td>
+        </tr>
+        <tr>
+            <td style=\"border: 1px solid grey; background-color:#f8f8f8; padding: 2px 7px;\"><p><strong>Teléfono</strong></p></td>
+            <td style=\"border: 1px solid grey; padding: 2px 7px;\"><p>".$data['inputTelefono']."</p></td>
+        </tr>
+        <tr>
+            <td style=\"border: 1px solid grey; background-color:#f8f8f8; padding: 2px 7px;\"><p><strong>Mensaje</strong></p></td>
+            <td style=\"border: 1px solid grey; padding: 2px 7px;\"><p>".$data['inputMensaje']."</p></td>
+        </tr>
+    </tbody>
+    </table>
+
+    <br/>
+    <hr/>
+    <p>*Este mensaje es generado automaticamente por el sistema. Por Favor no responda a este mensaje.</p><br/><br/><br/>
+    <img src=\"https://www.tucurauma.cl/web/assets/img/tu-curauma-logo.png\">
+    ";
+
+
+    try {
+       $this->mailer->setFrom('contacto@tucurauma.cl', 'Tu Curauma'); /*email confirmación empresa a cliente*/
+
+       $this->mailer->addAddress('contacto@tucurauma.cl', 'Tu Curauma');
+
+       $this->mailer->Subject = 'Mensaje desde TuCurauma.cl';
+
+       $this->mailer->isHTML(TRUE);
+       $this->mailer->Body = $message;
+
+       $this->mailer->CharSet = 'UTF-8';
+
+       $this->mailer->send();
+    }
+    catch (Exception $e)
+    {
+       echo $e->errorMessage();
+    }
+    catch (\Exception $e)
+    {
+       echo $e->getMessage();
+    }
+
+
+
+    return $this->view->render($response, 'mensaje.php',$data);
+});
