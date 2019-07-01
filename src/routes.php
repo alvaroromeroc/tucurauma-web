@@ -360,8 +360,6 @@ $app->post('/mensaje/',function(Request $request, Response $response, array $arg
 
     $data = $request->getParams();
 
-    //$this->mailer->
-
     $message = "
     <p>Nuevo Mensaje de TuCurauma.cl</p>
 
@@ -394,30 +392,36 @@ $app->post('/mensaje/',function(Request $request, Response $response, array $arg
     <img src=\"https://www.tucurauma.cl/web/assets/img/tu-curauma-logo.png\">
     ";
 
-
     try {
        $this->mailer->setFrom('contacto@tucurauma.cl', 'Tu Curauma'); /*email confirmación empresa a cliente*/
-
        $this->mailer->addAddress('contacto@tucurauma.cl', 'Tu Curauma');
-
        $this->mailer->Subject = 'Mensaje desde TuCurauma.cl';
-
        $this->mailer->isHTML(TRUE);
        $this->mailer->Body = $message;
-
        $this->mailer->CharSet = 'UTF-8';
 
        $this->mailer->send();
+
+       $data['success'] = TRUE;
+       $data['msg'] = 'Su mensaje fue enviado. Nos pondremos en contacto con usted.';
     }
     catch (Exception $e)
     {
-       echo $e->errorMessage();
+        $data['success'] = FALSE;
+        //$data['errorMsg'] = $e->errorMessage();
+        $data['msg'] = 'Lo sentimos. Su mensaje no fue enviado.<br />Favor intente más tarde o contáctenos en <a href="mailto:contacto@tucurauma.cl">contacto@tucurauma.cl</a>';
+        $this->logger->info("mensaje error".$e->errorMessage());
     }
     catch (\Exception $e)
     {
-       echo $e->getMessage();
+       $data['success'] = FALSE;
+       //$data['errorMsg'] = $e->getMessage();
+       $data['msg'] = 'Lo sentimos. Su mensaje no fue enviado.<br />Favor intente más tarde o contactenos en <a href="mailto:contacto@tucurauma.cl">contacto@tucurauma.cl</a>';
+       $this->logger->info("mensaje error".$e->errorMessage());
     }
 
+    //agregar el mensaje de data[]
+    
 
 
     return $this->view->render($response, 'mensaje.php',$data);

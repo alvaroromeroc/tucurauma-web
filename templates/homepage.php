@@ -19,7 +19,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png" />
+    <link rel="shortcut icon" type="image/x-icon" href="<?= $baseUrl; ?>assets/img/favicon.png" />
 
     <!-- CSS
   ================================================== -->
@@ -136,16 +136,20 @@ Welcome Slider
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="inputCategoria<?=$key['id']?>"
                                 name="inputCategoria" value="<?=$key['id']?>">
-                            <label class="form-check-label <?=$key['icon']?>-icon" for="inputCategoria<?=$key['id']?>" ><?=$key['category']?></label>
+                            <label class="form-check-label <?=$key['icon']?>-icon"
+                                for="inputCategoria<?=$key['id']?>"><?=$key['category']?></label>
                         </div>
                         <?php } ?>
                     </div>
 
                     <div class="pb-2">
                         <?php $tags = $data['tags'] ?>
-                        <select class="selectpicker form-control" id="inputEtiqueta" name="inputEtiqueta" title="Etiquetas" data-hide-disabled="true" multiple data-actions-box="true" data-done-button="true">
+                        <select class="selectpicker form-control" id="inputEtiqueta" name="inputEtiqueta"
+                            title="Etiquetas" data-hide-disabled="true" multiple data-actions-box="true"
+                            data-done-button="true">
                             <?php foreach ($tags as $key) { ?>
-                                <option data-content="<span class='badge badge-success'><?=$key['title']?></span>" value="<?=$key['id']?>"><?=$key['title']?></option>
+                            <option data-content="<span class='badge badge-success'><?=$key['title']?></span>"
+                                value="<?=$key['id']?>"><?=$key['title']?></option>
                             <?php } ?>
                         </select>
                     </div>
@@ -154,9 +158,10 @@ Welcome Slider
                         <input type="text" class="form-control " id="inputNombre" name="inputNombre">
                     </div-->
 
-                    <input type="button" class="btn btn-success btn-block" id="searchMapButton" value="Buscar" onclick="searchLocationsNear()">
+                    <input type="button" class="btn btn-success btn-block" id="searchMapButton" value="Buscar"
+                        onclick="searchLocationsNear()">
                 </div>
-                <!-- MAP --> 
+                <!-- MAP -->
                 <div class="col-lg-10 col-sm-9 col-sx-12">
                     <div id="map" style="width: 100%; height: 700px"></div>
                 </div>
@@ -285,7 +290,7 @@ Start Call To Action
                 <div class="col-md-6 text-center">
                     <h2>Contáctenos</h2>
                     <p>Escríbanos para incorporar su aviso clasificado o la información de su negocio.</p>
-                    <form name="mensaje" method="post" action="<?= $baseUrl; ?>mensaje/">
+                    <form name="mensaje" id="mensaje" method="post" action="<?= $baseUrl; ?>mensajea/">
                         <div class="form-group">
                             <!--label for="exampleInputEmail1">Nombre</label-->
                             <input type="text" class="form-control" id="inputNombre" name="inputNombre"
@@ -307,8 +312,7 @@ Start Call To Action
                             <textarea class="form-control" id="inputMensaje" name="inputMensaje" rows="3"
                                 placeholder="Comentario"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-success" data-toggle="tooltip" data-placement="top"
-                            title="Tooltip on top">Enviar</button>
+                        <button type="submit" class="btn btn-success" name="botonEnviar" id="botonEnviar" data-placement="top">Enviar</button>
                     </form>
 
                 </div>
@@ -400,6 +404,25 @@ Start Call To Action
     <!-- end footer -->
 
 
+    <div class="modal" id="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <!--div class="modal-header">
+                    <h5 class="modal-title">Mensaje</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div-->
+                <div class="modal-body">
+                    <p id="msg" class="text-center">Mensaje</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
     var map;
     var markers = [];
@@ -458,7 +481,7 @@ Start Call To Action
             }
         }
 
-        var texto= $("#inputNombre").val();
+        var texto = $("#inputNombre").val();
 
         var searchUrl = 'locationxml2/' + listado + '/' + etiquetas + '/' + texto;
         downloadUrl(searchUrl, function(data) {
@@ -547,7 +570,7 @@ Start Call To Action
 
     <!-- API Maps-->
     <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyGM2gGs7ZVz9G5NrqJ3tPI-GQx8X7OA4&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3SehR2bcruYousvuclSYAVoWhBoGP-Eo&callback=initMap">
     </script>
 
 
@@ -561,7 +584,6 @@ Start Call To Action
     <!--script src="<?= $baseUrl; ?>assets/js/slick.min.js"></script-->
     <!-- Smooth Scroll js -->
     <script src="<?= $baseUrl; ?>assets/js/smooth-scroll.min.js"></script>
-    <!--script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3SehR2bcruYousvuclSYAVoWhBoGP-Eo"></script-->
 
     <!-- Custom js -->
     <script src="<?= $baseUrl; ?>assets/js/script.js"></script>
@@ -581,7 +603,43 @@ Start Call To Action
 
         $(function() {
             $('[data-toggle="tooltip"]').tooltip()
-        })
+        });
+
+        $('#mensaje').submit(function() {
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                beforeSend: function() {
+                    $("#botonEnviar").prop('disabled', true);
+                },
+                error: function() {
+                    // en caso de error 500
+                    $('#msg').html('Sin respuesta del servidor.<br /> Favor intente más tarde');
+                    $('#modal').modal('show');
+                    $("#botonEnviar").prop('disabled', false);
+                },
+                success: function(data) {
+                    if (data['success'] == true) {
+                        $('#msg').html(data['msg']);
+                        $('#modal').modal('show');
+                        $('#botonEnviar').prop('value', 'Enviado');
+                    } else if(data['success'] == false) {
+                        $('#msg').html(data['msg']);
+                        $('#modal').modal('show');
+                        $('#botonEnviar').prop('disabled', false);
+                    } else {
+                        $('#msg').html('Sin respuesta del servidor.<br /> Favor intente más tarde');
+                        $('#modal').modal('show');
+                        $('#botonEnviar').prop('disabled', false);
+                    }
+                }
+            })
+            return false;
+        });
+
+
     });
     </script>
 

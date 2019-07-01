@@ -52,7 +52,7 @@ $container['database'] = function ($c) {
 
 //PHPMailer
 $container['mailer'] = function ($c) {
-    $settings = $c->get('settings')['mailer'];
+    //$settings = $c->get('settings')['mailer'];
     $mailer = new PHPMailer(true);
     return $mailer;
 };
