@@ -290,7 +290,7 @@ Start Call To Action
                 <div class="col-md-6 text-center">
                     <h2>Contáctenos</h2>
                     <p>Escríbanos para incorporar su aviso clasificado o la información de su negocio.</p>
-                    <form name="mensaje" id="mensaje" method="post" action="<?= $baseUrl; ?>mensajea/">
+                    <form name="mensaje" id="mensaje" method="post" action="<?= $baseUrl; ?>mensaje/">
                         <div class="form-group">
                             <!--label for="exampleInputEmail1">Nombre</label-->
                             <input type="text" class="form-control" id="inputNombre" name="inputNombre"
