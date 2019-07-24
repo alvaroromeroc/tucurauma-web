@@ -571,11 +571,8 @@ Start Call To Action
     </script>
 
     <!-- API Maps-->
-    <!--script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3SehR2bcruYousvuclSYAVoWhBoGP-Eo&callback=initMap">
-    </script-->
     <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyGM2gGs7ZVz9G5NrqJ3tPI-GQx8X7OA4&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3SehR2bcruYousvuclSYAVoWhBoGP-Eo&callback=initMap">
     </script>
     
     <!-- Main jQuery -->
