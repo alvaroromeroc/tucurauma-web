@@ -81,6 +81,7 @@
     <?php
 //print_r($data);
 $site = $data['site'];
+$tags = $data['tags'];
 $products = $data['products'];
 $related = $data['related'];
 ?>
@@ -98,6 +99,9 @@ $related = $data['related'];
             <div class="row">
                 <div class="col-lg-6">
                     <h3><?=$site['name']?></h3>
+                    <?php foreach ($tags as $tag) { ?>
+                        <a href="<?=$baseUrl."etiquetas/".$tag['id']."-".$tag['title']."/"?>" class="badge badge-success"><?=$tag['title']?></a>
+                    <?php } ?>
                     <p class="lead"><?=$site['description']?></p>
                     <!--img src="<?= $baseUrl; ?>assets/sites/<?=$site['id']?>/<?=$site['header']?>"-->
                     <p class="lead"><?=$site['address']?></p>

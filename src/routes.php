@@ -73,14 +73,30 @@ $app->get('/site/{id}[/]', function (Request $request, Response $response, array
             $rel['thumb_logo'] = ($rel['logo']=="" ? "../../default/thumbnail-logo.jpg" : "thumbnail-logo.jpg");
         }
 
+        //etiquetas 
+        $tags = $this->database->select("shops_tags",
+        [
+            "[><]tags" => ["tag_id" => "id"]
+        ],
+        [
+            "tags.id",
+            "tags.title"
+        ],
+        [
+            "shops_tags.shop_id"=> $id
+        ]
+    );
+
         
         // cargo la variable
         $data['site'] = $site;
+        $data['tags'] = $tags;
         $data['products'] = $products;
         $data['related'] = $related;
         return $this->view->render($response, 'site.php', $data);
     endif;
 });
+
 
 
 
@@ -145,6 +161,57 @@ $app->get('/sites/[{category}/]', function (Request $request, Response $response
     $data['categories'] = $categories;
 
     return $this->view->render($response, 'sites.php', $data);
+
+});
+
+
+
+
+
+$app->get('/etiquetas/{id}[/]', function (Request $request, Response $response, array $args) {
+    if(isset($args['id']))
+        $this->logger->info("tags '/' id =".$args['id']);
+    else 
+        $this->logger->info("tags '/'");
+    // arreglar esto url http://localhost/slim-5/sites/ (en el footer)
+
+    if(isset($args['id'])):
+        $id = (int)$args['id'];
+        $sites = $this->database->select("shops_tags",
+        [
+            "[><]shops" => ["shop_id" => "id"]
+        ],
+        [
+            "shops.id (id_shops)",
+            "shops.name",
+            "shops.header",
+            "shops.logo",
+            "shops.alias"
+        ],
+        [
+            "shops_tags.tag_id"=> $id,
+            "shops.active" => 1
+        ]
+    );
+    else:
+        return $this->view->render($response, '404.php');
+    endif;
+
+    foreach ($sites as &$site) {
+        $site['thumb_header'] = ($site['header']=="" ? "../../default/thumbnail-header.jpg" : "thumbnail-header.jpg");
+        $site['thumb_logo'] = ($site['logo']=="" ? "../../default/thumbnail-logo.jpg" : "thumbnail-logo.jpg");
+        if ($site['header']=="") $site['header'] = "../../default/header.jpg";
+        if ($site['logo']=="") $site['logo'] = "../../default/logo.jpg";
+    }
+
+    $data['sites'] = $sites;
+    if(isset($args['category'])){ $data['ids'] = $id;}
+    else {$data['ids'] = 0;}
+    
+    $categories = $this->database->select("categories",'*',["featured" => 1]);
+    $data['categories'] = $categories;
+
+    return $this->view->render($response, 'tags.php', $data);
 
 });
 
@@ -403,7 +470,7 @@ $app->post('/mensaje/',function(Request $request, Response $response, array $arg
        $this->mailer->send();
 
        $data['success'] = TRUE;
-       $data['msg'] = 'Su mensaje fue enviado. Nos pondremos en contacto con usted.';
+       $data['msg'] = 'Su mensaje fue enviado.<br /> Nos pondremos en contacto con usted.';
     }
     catch (Exception $e)
     {

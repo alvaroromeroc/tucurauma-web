@@ -26,17 +26,19 @@
     <!-- Themefisher Icon font -->
     <link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/themefisher.style.css">
     <!-- bootstrap.min css -->
-    <link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/bootstrap.min.css">
+    <!--link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/bootstrap.min.css"-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
     <link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/bootstrap-select.min.css">
     <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"-->
     <!-- Slick Carousel -->
     <!--link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/slick.css">
-  <link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/slick-theme.css"-->
+    <link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/slick-theme.css"-->
     <!-- Main Stylesheet -->
     <!--link rel="stylesheet" href="css/style.css"-->
     <link href="<?= $baseUrl; ?>assets/css/style.css" rel="stylesheet">
-    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.5.0/css/all.css'
-        integrity='sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU' crossorigin='anonymous'>
+    <link href="<?= $baseUrl; ?>assets/css/tucurauma.css" rel="stylesheet">
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.5.0/css/all.css' integrity='sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU' crossorigin='anonymous'>
 
     <style>
     <?php foreach ($categories as $key) {
@@ -91,7 +93,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <nav class="navbar navbar-expand-md">
-                        <a class="navbar-brand" href="index.html">
+                        <a class="navbar-brand" href="<?= $baseUrl; ?>">
                             <img src="<?= $baseUrl; ?>assets/img/tu-curauma-logo.png" alt="logo">
                         </a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -142,7 +144,7 @@ Welcome Slider
                         <?php } ?>
                     </div>
 
-                    <div class="pb-2">
+                    <!--div class="pb-2">
                         <?php $tags = $data['tags'] ?>
                         <select class="selectpicker form-control" id="inputEtiqueta" name="inputEtiqueta"
                             title="Etiquetas" data-hide-disabled="true" multiple data-actions-box="true"
@@ -152,14 +154,14 @@ Welcome Slider
                                 value="<?=$key['id']?>"><?=$key['title']?></option>
                             <?php } ?>
                         </select>
-                    </div>
+                    </div-->
 
                     <!--div class="pb-1">
                         <input type="text" class="form-control " id="inputNombre" name="inputNombre">
                     </div-->
 
-                    <input type="button" class="btn btn-success btn-block" id="searchMapButton" value="Buscar"
-                        onclick="searchLocationsNear()">
+                    <!--input type="button" class="btn btn-success btn-block" id="searchMapButton" value="Buscar"
+                        onclick="searchLocationsNear()"-->
                 </div>
                 <!-- MAP -->
                 <div class="col-lg-10 col-sm-9 col-sx-12">
@@ -473,7 +475,7 @@ Start Call To Action
         });
 
 
-        var selO = document.getElementsByName('inputEtiqueta')[0];
+        /*var selO = document.getElementsByName('inputEtiqueta')[0];
         var etiquetas = [0];
         for (i = 0; i < selO.length; i++) {
             if (selO.options[i].selected) {
@@ -481,9 +483,9 @@ Start Call To Action
             }
         }
 
-        var texto = $("#inputNombre").val();
+        var texto = $("#inputNombre").val();*/
 
-        var searchUrl = 'locationxml2/' + listado + '/' + etiquetas + '/' + texto;
+        var searchUrl = 'locationxml/' + listado + "/" ;
         downloadUrl(searchUrl, function(data) {
             var xml = parseXml(data);
             var markerNodes = xml.documentElement.getElementsByTagName("marker");
@@ -569,16 +571,21 @@ Start Call To Action
     </script>
 
     <!-- API Maps-->
-    <script async defer
+    <!--script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3SehR2bcruYousvuclSYAVoWhBoGP-Eo&callback=initMap">
+    </script-->
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyGM2gGs7ZVz9G5NrqJ3tPI-GQx8X7OA4&callback=initMap">
     </script>
-
-
+    
     <!-- Main jQuery -->
-    <script src="<?= $baseUrl; ?>assets/js/jquery.min.js"></script>
+    <!--script src="<?= $baseUrl; ?>assets/js/jquery.min.js"></script-->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <!-- Bootstrap -->
-    <script src="<?= $baseUrl; ?>assets/js/popper.min.js"></script>
-    <script src="<?= $baseUrl; ?>assets/js/bootstrap.min.js"></script>
+    <!--script src="<?= $baseUrl; ?>assets/js/popper.min.js"></script-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <!--script src="<?= $baseUrl; ?>assets/js/bootstrap.min.js"></script-->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="<?= $baseUrl; ?>assets/js/bootstrap-select.min.js"></script>
     <!-- Owl Carousel -->
     <!--script src="<?= $baseUrl; ?>assets/js/slick.min.js"></script-->
@@ -598,7 +605,7 @@ Start Call To Action
             else $(".<?=$key['icon']?>-icon").css("filter", "grayscale(100%)");
             <?php } ?>
 
-            //searchLocationsNear();
+            searchLocationsNear();
         });
 
         $(function() {
