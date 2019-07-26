@@ -15,17 +15,17 @@
                         </a>
                     </li>
                     <li>
-                        <a href="https://www.facebook.com/Tucuraumacl-320639288611173/">
+                        <a href="https://www.facebook.com/Tucuraumacl-320639288611173/" target="_blank">
                             <i class='fab fa-facebook-square'></i>
                         </a>
                     </li>
                     <li>
-                        <a href="https://www.youtube.com/channel/UCWWvYF1OYstmDPLnxIPBLZw?guided_help_flow=3">
+                        <a href="https://www.youtube.com/channel/UCWWvYF1OYstmDPLnxIPBLZw?guided_help_flow=3" target="_blank">
                             <i class='fab fa-youtube-square'></i>
                         </a>
                     </li>
                     <li>
-                        <a href="https://www.instagram.com/tucurauma.cl/">
+                        <a href="https://www.instagram.com/tucurauma.cl/" target="_blank">
                             <i class='fab fa-instagram'></i>
                         </a>
                     </li>
