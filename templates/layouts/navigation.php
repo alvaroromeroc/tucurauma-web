@@ -15,18 +15,18 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="https://www.facebook.com/Tucuraumacl-320639288611173/">
                             <i class='fab fa-facebook-square'></i>
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="https://www.youtube.com/channel/UCWWvYF1OYstmDPLnxIPBLZw?guided_help_flow=3">
                             <i class='fab fa-youtube-square'></i>
                         </a>
                     </li>
                     <li>
-                        <a href="#">
-                            <i class='fab fa-pinterest-square'></i>
+                        <a href="https://www.instagram.com/tucurauma.cl/">
+                            <i class='fab fa-instagram'></i>
                         </a>
                     </li>
                 </ul>
