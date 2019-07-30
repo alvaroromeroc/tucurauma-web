@@ -1,0 +1,205 @@
+/*===================================================================
+  MENU HEADER
+====================================================================*/
+
+/*=================================================================
+  NAVIGATION
+==================================================================*/
+.navigation {
+    transition: .3s all;
+    background: #2f241e;
+}
+  
+.navigation .navbar-nav > li.active a {
+color: #279326;
+}
+
+.navigation .navbar-nav > li > a {
+    color: #fff;
+    font-size: 13px;
+    text-transform: uppercase;
+    line-height: 24px;
+    padding: 20px 15px !important;
+    transition: .2s ease-in-out 0s;
+}
+
+@media (max-width: 480px) {
+    .navigation .navbar-nav > li > a {
+        padding: 8px 0 !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .navigation .navbar-nav > li > a {
+        padding: 8px 0 !important;
+    }
+}
+
+.navigation .navbar-nav > li > a:hover, .navigation .navbar-nav > li > a:active, .navigation .navbar-nav > li > a:focus {
+    background: none;
+    color: #12adcc;
+}
+
+.navigation .navbar-toggler {
+    color: #fff;
+    font-size: 30px;
+    cursor: pointer;
+    outline: none;
+}
+
+.navigation .nav .open > a {
+    background: none;
+}
+
+.navigation .dropdown {
+    padding: 0;
+}
+
+.navigation .dropdown .dropdown-item {
+    padding: 8px 15px;
+    color: #fff;
+    font-size: 13px;
+}
+
+.navigation .dropdown .dropdown-item:hover {
+    background: transparent;
+    color: #12adcc;
+}
+
+.navigation .dropdown .dropdown-menu {
+    border-radius: 0;
+    -webkit-transform-origin: top;
+            transform-origin: top;
+    -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
+    -webkit-transform: scale(1, 0);
+            transform: scale(1, 0);
+    background-color: #000;
+    display: block;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out,-webkit-transform 0.3s;
+    transition: transform 0.3s,opacity 0.3s ease-in-out;
+    transition: transform 0.3s,opacity 0.3s ease-in-out,-webkit-transform 0.3s;
+}
+
+.navigation .dropdown:hover .dropdown-menu {
+    transition: opacity 0.3s ease-in-out,-webkit-transform 0.3s;
+    transition: transform 0.3s,opacity 0.3s ease-in-out;
+    transition: transform 0.3s,opacity 0.3s ease-in-out,-webkit-transform 0.3s;
+    -webkit-transform: scale(1, 1);
+            transform: scale(1, 1);
+    opacity: 1;
+}
+
+.navbar-brand {
+    height: auto;
+    padding: 8px 0;
+    color: #31BB9E;
+}
+
+.navbar-brand img {
+    width: 255px;
+    position: absolute;
+    top: -35px;
+}
+
+@media (max-width: 768px) {
+    .navbar-brand img {
+        width: 200px;
+    }
+}
+
+
+.navbar-brand h1 {
+    margin: 0;
+    font-size: 25px;
+}
+
+.top-header {
+    background: #231a18;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.top-contacts {
+    text-align: right;
+}
+
+.top-contacts li {
+    display: inline-block;
+}
+
+.top-contacts li:last-child a {
+    padding-right: 15px; 
+}
+
+.top-contacts li a {
+    font-weight: normal;
+    font-size: 16px;
+    padding: 0 12px;
+    display: inline-block;
+    color: #cacaca;
+}
+
+.top-contacts li a .fa-whatsapp, .top-contacts li a .fa-envelope{
+    color:#279326;
+}
+
+
+.top-contacts li a span{
+    font-size: 12px;
+    padding:  0 0 0 5px;
+}
+
+
+@media (max-width: 800px) {
+    .top-contacts li a{
+        padding: 0 2px;
+    }
+    .top-contacts li a span{
+        display: none;
+    }
+}
+
+
+.top-contacts li a i {
+    margin-left: 4px;
+}
+
+
+/*===================================================================
+  FORM CONTACT
+====================================================================*/
+
+#contacto {
+    background: url("../img/bg-contacto.jpg");
+    background-position: right center;
+}
+
+#contacto h2{
+    font-weight: 100;
+    color: #fff;
+}
+
+#contacto p{
+    color: #fff;
+}
+
+
+
+
+/*===================================================================
+  Empresas Footer
+====================================================================*/
+
+
+
+
+
+
+/*===================================================================
+  404
+====================================================================*/
+.page-404 h1 {
+    font-size: 200px;
+}

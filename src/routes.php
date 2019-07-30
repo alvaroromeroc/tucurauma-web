@@ -5,6 +5,11 @@ use Slim\Http\Response;
  
 // Routes
  
+$app->get('/web[/]', function ($request, $response, $args) { 
+
+    return $response->withRedirect('/'); 
+});
+
 $app->get('/', function (Request $request, Response $response, array $args) {
     $this->logger->info("homepage '/' ");
 

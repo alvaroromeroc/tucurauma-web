@@ -5,39 +5,9 @@
 <!--[if gt IE 8]><!-->
 <html lang="es">
 <!--<![endif]-->
-
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="description" content="Tu Curauma - ">
-
-    <meta name="author" content="Themefisher.com">
-
     <title>Tu Curauma</title>
-
-    <!-- Mobile Specific Meta
-  ================================================== -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png" />
-
-    <!-- CSS
-  ================================================== -->
-    <!-- Themefisher Icon font -->
-    <link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/themefisher.style.css">
-    <!-- bootstrap.min css -->
-    <link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/bootstrap.min.css">
-    <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"-->
-    <!-- Slick Carousel -->
-    <!--link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/slick.css">
-  <link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/slick-theme.css"-->
-    <!-- Main Stylesheet -->
-    <!--link rel="stylesheet" href="css/style.css"-->
-    <link href="<?= $baseUrl; ?>assets/css/style.css" rel="stylesheet">
-    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.5.0/css/all.css'
-        integrity='sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU' crossorigin='anonymous'>
-
-
+    <?php include('layouts/head.php');?>
 
 </head>
 
@@ -100,7 +70,8 @@ $related = $data['related'];
                 <div class="col-lg-6">
                     <h3><?=$site['name']?></h3>
                     <?php foreach ($tags as $tag) { ?>
-                        <a href="<?=$baseUrl."etiquetas/".$tag['id']."-".$tag['title']."/"?>" class="badge badge-success"><?=$tag['title']?></a>
+                    <a href="<?=$baseUrl."etiquetas/".$tag['id']."-".$tag['title']."/"?>"
+                        class="badge badge-success"><?=$tag['title']?></a>
                     <?php } ?>
                     <p class="lead"><?=$site['description']?></p>
                     <!--img src="<?= $baseUrl; ?>assets/sites/<?=$site['id']?>/<?=$site['header']?>"-->
@@ -132,7 +103,7 @@ $related = $data['related'];
                         src="<?=$baseUrl?>assets/images/tiendas/<?=$site['id']?>/<?=$site['header']?>"
                         style="width:100%;">
                     <!--img class="logo-site" src="<?=$baseUrl."assets/sites/".$site['id']."/logo.jpg"; ?>" alt="<?=$site['alias']?>"-->
-                </div>                
+                </div>
 
                 <div class="col-lg-12 mt-5 mb-5">
                     <div id="map" style="height: 350px; width: 100%"></div>

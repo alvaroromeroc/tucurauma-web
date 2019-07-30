@@ -5,40 +5,9 @@
 <!--[if gt IE 8]><!-->
 <html lang="es">
 <!--<![endif]-->
-
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="description" content="Tu Curauma - ">
-
-    <meta name="author" content="Themefisher.com">
-
     <title>Tu Curauma</title>
-
-    <!-- Mobile Specific Meta
-  ================================================== -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="<?= $baseUrl; ?>assets/img/favicon.png" />
-
-    <!-- CSS
-  ================================================== -->
-    <!-- Themefisher Icon font -->
-    <link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/themefisher.style.css">
-    <!-- bootstrap.min css -->
-    <!--link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/bootstrap.min.css"-->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/bootstrap-select.min.css">
-    <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"-->
-    <!-- Slick Carousel -->
-    <!--link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/slick.css">
-    <link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/slick-theme.css"-->
-    <!-- Main Stylesheet -->
-    <!--link rel="stylesheet" href="css/style.css"-->
-    <link href="<?= $baseUrl; ?>assets/css/style.css" rel="stylesheet">
-    <link href="<?= $baseUrl; ?>assets/css/tucurauma.css" rel="stylesheet">
-    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.5.0/css/all.css' integrity='sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU' crossorigin='anonymous'>
+    <?php include('layouts/head.php');?>
 
     <style>
     <?php foreach ($categories as $key) {
@@ -52,9 +21,6 @@
 
     ?>
     </style>
-
-
-
 </head>
 
 <!--body id="body"-->
@@ -238,7 +204,7 @@ Welcome Slider
 
 
     <!--
-Start About Section
+PUBLICIDAD
 ==================================== -->
     <section class="service-2 section-xs">
         <div class="container">
@@ -265,26 +231,11 @@ Start About Section
         </div> <!-- End container -->
     </section> <!-- End section -->
 
-    <!--
-Start Call To Action
-==================================== -->
-    <!--section class="call-to-action section-sm">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12 text-center">
-				<h2>Open account for free and start trading Bitcoins now!</h2>
-				<p>Proin gravida nibh vel velit auctor aliquet. Aenean sollicudin bibendum auctor, <br> nisi elit consequat ipsum, nesagittis sem nid elit. Duis sed odio sitain elit.</p>
-				<a href="" class="btn btn-main">Get Started</a>
-			</div>
-		</div> 		
-	</div>   	
-</section-->
-    <!-- End section -->
 
 
 
     <!--
-Start Call To Action
+Form Contact
 ==================================== -->
     <section id="contacto" class="section-sm  bg-gray">
         <div class="container">
@@ -314,7 +265,8 @@ Start Call To Action
                             <textarea class="form-control" id="inputMensaje" name="inputMensaje" rows="3"
                                 placeholder="Comentario"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-success" name="botonEnviar" id="botonEnviar" data-placement="top">Enviar</button>
+                        <button type="submit" class="btn btn-success" name="botonEnviar" id="botonEnviar"
+                            data-placement="top">Enviar</button>
                     </form>
 
                 </div>
@@ -485,7 +437,7 @@ Start Call To Action
 
         var texto = $("#inputNombre").val();*/
 
-        var searchUrl = 'locationxml/' + listado + "/" ;
+        var searchUrl = 'locationxml/' + listado + "/";
         downloadUrl(searchUrl, function(data) {
             var xml = parseXml(data);
             var markerNodes = xml.documentElement.getElementsByTagName("marker");
@@ -574,15 +526,20 @@ Start Call To Action
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3SehR2bcruYousvuclSYAVoWhBoGP-Eo&callback=initMap">
     </script>
-    
+
     <!-- Main jQuery -->
     <!--script src="<?= $baseUrl; ?>assets/js/jquery.min.js"></script-->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <!-- Bootstrap -->
     <!--script src="<?= $baseUrl; ?>assets/js/popper.min.js"></script-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
     <!--script src="<?= $baseUrl; ?>assets/js/bootstrap.min.js"></script-->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
     <script src="<?= $baseUrl; ?>assets/js/bootstrap-select.min.js"></script>
     <!-- Owl Carousel -->
     <!--script src="<?= $baseUrl; ?>assets/js/slick.min.js"></script-->
@@ -620,7 +577,8 @@ Start Call To Action
                 },
                 error: function() {
                     // en caso de error 500
-                    $('#msg').html('Sin respuesta del servidor.<br /> Favor intente más tarde');
+                    $('#msg').html(
+                        'Sin respuesta del servidor.<br /> Favor intente más tarde');
                     $('#modal').modal('show');
                     $("#botonEnviar").prop('disabled', false);
                 },
@@ -629,12 +587,13 @@ Start Call To Action
                         $('#msg').html(data['msg']);
                         $('#modal').modal('show');
                         $('#botonEnviar').prop('value', 'Enviado');
-                    } else if(data['success'] == false) {
+                    } else if (data['success'] == false) {
                         $('#msg').html(data['msg']);
                         $('#modal').modal('show');
                         $('#botonEnviar').prop('disabled', false);
                     } else {
-                        $('#msg').html('Sin respuesta del servidor.<br /> Favor intente más tarde');
+                        $('#msg').html(
+                            'Sin respuesta del servidor.<br /> Favor intente más tarde');
                         $('#modal').modal('show');
                         $('#botonEnviar').prop('disabled', false);
                     }
