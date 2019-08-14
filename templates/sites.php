@@ -15,7 +15,7 @@
     </style>
 </head>
 
-<body style="margin:0px; padding:0px;" onload="initMap()">
+<body style="margin:0px; padding:0px;" >
 
     <?php include('layouts/navigation.php');?>
 
@@ -163,22 +163,18 @@
                 largo = data.length;
                 if (num == 1) j = 1;
                 for (i = 0; i < largo; i++, j++) {
-                    output = '<div class="col-lg-3 col-sm-4 col-6" id="site-' + j + '">';
+                    output  = '<div class="col-lg-3 col-sm-4 col-6" id="site-' + j + '">';
+                    output += '<a href="<?= $baseUrl; ?>site/' + data[i]['id'] + '-' + data[i]['alias'] + '" title="' + data[i]['name'] + '">';
                     output += '<div class="card mb-4 shadow-sm">';
-                    output += '<a href="<?= $baseUrl; ?>site/' + data[i]['id'] + '-' + data[i]['alias'] +
-                        '">';
-                    output +=
-                        '<img class="card-img-top" src="<?=$baseUrl?>assets/images/tiendas/<?=$valor['id_shops']?>/<?=$valor['thumb_header']?>" alt="<?=$valor['name']?>">';
-                    output += '</a>';
+                    output += '<img class="card-img-top" src="<?=$baseUrl?>assets/images/tiendas/' + data[i]['id'] + '/' + data[i]['header'] + '" alt="'+  data[i]['name'] +'">';
                     output += '<div class="card-body">';
-                    output +=
-                        '<img class="logo-card d-none d-sm-block" src="<?=$baseUrl; ?>assets/images/tiendas/' +
-                        data[i]['id'] + '/' + data[i]['logo'] + '" alt="' + data[i]['name'] + '">';
-                    output += '<p class="card-text"><strong>' + data[i]['name'] + '</strong></p>';
-                    output += '<a href="<?= $baseUrl; ?>site/' + data[i]['id'] + '-' + data[i]['alias'] +
-                        '" class="btn btn-success" role="button">Visitar</a>';
+                    output += '<!--img class="logo-card d-none d-sm-block" src="<?=$baseUrl; ?>assets/images/tiendas/' + data[i]['id'] + '/' + data[i]['logo'] + '" alt="' + data[i]['name'] + '"-->';
+                    output += '<p class="category">' + data[i]['category'] + '</p>';
+                    output += '<p class="card-text">' + data[i]['name'] + '<br />';
+                    output += '<small><i class="fas fa-map-marker-alt"></i> ' + data[i]['address'] + '</small></p>';
                     output += '</div>';
                     output += '</div>';
+                    output += '<!/a>';
                     output += '</div>';
                     //(data[i]['name']);
                     $("#dimanic-shops").append(output);
@@ -188,6 +184,10 @@
             }
         });
     }
+
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
 
     $(function() {
         cargar();

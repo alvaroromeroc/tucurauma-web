@@ -56,23 +56,23 @@
                 </div>
                 <?php if(count($sites)>0) : ?>
                 <?php foreach ($sites as $site) { ?>
-                <div class="col-lg-4 col-sm-6 col-12">
-                    <div class="card mb-4 shadow-sm">
-                        <a href="<?= $baseUrl."site/".$site['id_shops']."-".$site['alias']; ?>">
-                            <img class="card-img-top"
-                                src="<?=$baseUrl?>assets/images/tiendas/<?=$site['id_shops']?>/<?=$site['thumb_header']?>"
-                                alt="<?=$site['name']?>">
-                        </a>
-                        <div class="card-body">
-                            <img class="logo-card"
-                                src="<?=$baseUrl?>assets/images/tiendas/<?=$site['id_shops']?>/<?=$site['thumb_logo']?>"
-                                alt="Logo<?=$site['name']?>" width="100px" height="100px">
-                            <p class="card-text"><strong><?=$site['name']?></strong><br />
-                            </p>
-                            <a href="<?= $baseUrl."site/".$site['id_shops']."-".$site['alias']; ?>"
-                                class="btn btn-success" role="button">Visitar</a>
+                <div class="col-lg-3 col-sm-4 col-6">
+                    <a href="<?= $baseUrl."site/".$site['id_shops']."-".$site['alias']; ?>"  title="<?=$site['name']?>">
+                        <div class="card mb-4 shadow-sm">
+                                <img class="card-img-top"
+                                    src="<?=$baseUrl?>assets/images/tiendas/<?=$site['id_shops']?>/<?=$site['thumb_header']?>"
+                                    alt="<?=$site['name']?>">
+                            
+                            <div class="card-body">
+                                <p class="category"><?=$site['category']?></p>
+                                <!--img class="logo-card"
+                                    src="<?=$baseUrl?>assets/images/tiendas/<?=$site['id_shops']?>/<?=$site['thumb_logo']?>"
+                                    alt="Logo<?=$site['name']?>" width="100px" height="100px"-->
+                                <p class="card-text"><?=$site['name']?><br />
+                                <small><i class="fas fa-map-marker-alt"></i> <?=$site['address']?></small></p>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <?php } ?>
                 <?php else :?>

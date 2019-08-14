@@ -179,13 +179,13 @@ Welcome Slider
                 <?php foreach ($categories as $key) { ?>
                 <div class="col-lg-3 col-sm-4 col-6">
                     <div class="text-center">
-                        <a href="<?=$baseUrl."sites/".$key['id']."-".$key['category']."/"?>">
+                        <a href="<?=$baseUrl."categoria/".$key['id']."-".$key['category']."/"?>">
                             <img class="" src="assets/img/logo_<?=$key['icon']?>.png" alt="<?=$key['category']?>">
                         </a>
                         <div class="">
                             <p class="font-weight-bold">
                                 <a
-                                    href="<?=$baseUrl."sites/".$key['id']."-".$key['category']."/"?>"><?=$key['category']?></a>
+                                    href="<?=$baseUrl."categoria/".$key['id']."-".$key['category']."/"?>"><?=$key['category']?></a>
                             </p>
                             <!--p class=""><?=$key['descripcion']?></p-->
                         </div>
@@ -276,7 +276,35 @@ Form Contact
 
     <!-- -- -->
 
-    <section id="empresas" class="section-sm">
+
+    <section id="related">
+        <?php //print_r($related) ?>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Tiendas Destacadas</h3>
+                </div>
+                <?php foreach ($related as $rel_site) { ?>
+                <div class="col-lg-3 col-sm-4 col-6">
+                    <a href="<?= $baseUrl; ?>site/<?=$rel_site['id']?>-<?=$rel_site['alias']?>" title="<?=$rel_site['name']?>">
+                        <div class="card mb-4 shadow-sm">
+                            <img class="card-img-top"
+                                src="<?=$baseUrl?>assets/images/tiendas/<?=$rel_site['id']?>/<?=$rel_site['thumb_header']?>"
+                                alt="<?=$rel_site['name']?>">
+                            <div class="card-body">
+                                <p class="card-text"><?=$rel_site['name']?><br />
+                                <small><i class="fas fa-map-marker-alt"></i> <?=$rel_site['address']?></small></p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <?php } ?>
+            </div>
+        </div>
+    </section>
+
+
+    <!--section id="empresas" class="section-sm">
         <div class="container">
             <div class="row">
                 <div class="col-md-3 col-3">
@@ -301,7 +329,7 @@ Form Contact
                 </div>
             </div>
         </div>
-    </section>
+    </section-->
 
     <!-- -- -->
 
@@ -542,7 +570,7 @@ Form Contact
     </script>
     <script src="<?= $baseUrl; ?>assets/js/bootstrap-select.min.js"></script>
     <!-- Owl Carousel -->
-    <!--script src="<?= $baseUrl; ?>assets/js/slick.min.js"></script-->
+    <script src="<?= $baseUrl; ?>assets/js/slick.min.js"></script>
     <!-- Smooth Scroll js -->
     <script src="<?= $baseUrl; ?>assets/js/smooth-scroll.min.js"></script>
 

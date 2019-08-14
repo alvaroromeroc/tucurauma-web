@@ -10,23 +10,38 @@ $app->get('/web[/]', function ($request, $response, $args) {
     return $response->withRedirect('/'); 
 });
 
+
 $app->get('/', function (Request $request, Response $response, array $args) {
     $this->logger->info("homepage '/' ");
 
     $categories = $this->database->select("categories",'*',["featured" => 1]);
 
-    $tags = $this->database->select("tags",'*',["ORDER"=>["title"=>"ASC"]]);
+    //$tags = $this->database->select("tags",'*',["ORDER"=>["title"=>"ASC"]]);
 
+    // tiendas relacionadas
+    $related = $this->database->select("shops",'*',
+        [
+            "active" => 1,
+            "featured" => 1,
+            "LIMIT" => 4
+        ]
+    );
+    
+    foreach ($related as &$rel) {
+          $rel['thumb_header'] = ($rel['header']=="" ? "../../default/thumbnail-header.jpg" : "thumbnail-header.jpg");
+          $rel['thumb_logo'] = ($rel['logo']=="" ? "../../default/thumbnail-logo.jpg" : "thumbnail-logo.jpg");
+    }  
 
     //$cat_tags = $this->database->select("shops_tags",'*',["" => 1]);
     
     $data['categories'] = $categories;
-    $data['tags']       = $tags;
+    $data['related'] = $related;
+    //$data['tags']       = $tags;
 
     return $this->view->render($response, 'homepage.php',$data);
 });
  
- 
+
 $app->get('/curauma',function(Request $request, Response $response, array $args) {
     $this->logger->info("about '/' ");
 
@@ -103,8 +118,6 @@ $app->get('/site/{id}[/]', function (Request $request, Response $response, array
 });
 
 
-
-
 $app->get('/sites/[{category}/]', function (Request $request, Response $response, array $args) {
     if(isset($args['category']))
         $this->logger->info("sites '/' id =".$args['category']);
@@ -152,7 +165,7 @@ $app->get('/sites/[{category}/]', function (Request $request, Response $response
     endif;
 
     foreach ($sites as &$site) {
-        $site['thumb_header'] = ($site['header']=="" ? "../../default/thumbnail-header.jpg" : "thumbnail-header.jpg");
+        $site['thumb_header'] = ($site['header']=="" ? "../../default/thumbnail-header.jpg" : "tiendas/18/thumbnail-header.jpg");
         $site['thumb_logo'] = ($site['logo']=="" ? "../../default/thumbnail-logo.jpg" : "thumbnail-logo.jpg");
         if ($site['header']=="") $site['header'] = "../../default/header.jpg";
         if ($site['logo']=="") $site['logo'] = "../../default/logo.jpg";
@@ -170,7 +183,65 @@ $app->get('/sites/[{category}/]', function (Request $request, Response $response
 });
 
 
+$app->get('/categoria/[{category}/]', function (Request $request, Response $response, array $args) {
+    
+    if(isset($args['category']))
+        $this->logger->info("categorias| '/' id =".$args['category']);
+    else 
+        $this->logger->info("categorias| '/' id = index");
 
+
+    if(isset($args['category'])):
+        $id = (int)$args['category'];
+        $category = $this->database->select("categories", "category", ["id" => $id]);
+        if (count($category)==0){
+            return $this->view->render($response->withStatus(404), '404.php', [
+                "myError" => "Error"
+            ]);
+        }
+        else {
+
+            $sites = $this->database->select("categories",
+                [
+                    "[><]shops" => ["id" => "categories_id"]
+                ],
+                [
+                    "categories.id",
+                    "categories.category",
+                    "shops.id (id_shops)",
+                    "shops.name",
+                    "shops.header",
+                    "shops.logo",
+                    "shops.alias"
+                ],
+                [
+                    "categories.id"=> $id,
+                    "shops.active" => 1
+                ]
+            );
+
+            foreach ($sites as &$site) {
+                $site['thumb_header'] = ($site['header'] == "" ) ? "../../default/thumbnail-header.jpg" : "thumbnail-header.jpg";
+                $site['thumb_logo'] = ($site['logo']=="") ? "../../default/thumbnail-logo.jpg" : "thumbnail-logo.jpg";
+                if ($site['header']=="") $site['header'] = "../../default/header.jpg";
+                if ($site['logo']=="") $site['logo'] = "../../default/logo.jpg";
+            }
+
+            $data['sites'] = $sites;
+        }
+    else:
+        $a=1;
+    endif;
+    
+    if(isset($args['category'])){ $data['ids'] = $id;}
+    else {$data['ids'] = 0;}
+    
+    $categories = $this->database->select("categories",'*',["featured" => 1]);
+    $data['categories'] = $categories;
+    $data['category'] = $category;
+
+    return $this->view->render($response, 'category.php', $data);
+});
 
 
 $app->get('/etiquetas/{id}[/]', function (Request $request, Response $response, array $args) {
@@ -184,14 +255,17 @@ $app->get('/etiquetas/{id}[/]', function (Request $request, Response $response, 
         $id = (int)$args['id'];
         $sites = $this->database->select("shops_tags",
         [
-            "[><]shops" => ["shop_id" => "id"]
+            "[><]shops" => ["shop_id" => "id"],
+            "[><]categories" => ["shops.categories_id" => "id"]
         ],
         [
             "shops.id (id_shops)",
             "shops.name",
             "shops.header",
             "shops.logo",
-            "shops.alias"
+            "shops.alias",
+            "shops.address",
+            "categories.category",
         ],
         [
             "shops_tags.tag_id"=> $id,
@@ -210,16 +284,15 @@ $app->get('/etiquetas/{id}[/]', function (Request $request, Response $response, 
     }
 
     $data['sites'] = $sites;
-    if(isset($args['category'])){ $data['ids'] = $id;}
-    else {$data['ids'] = 0;}
+    /*if(isset($args['category'])){ $data['ids'] = $id;}
+    else {$data['ids'] = 0;}*/
     
-    $categories = $this->database->select("categories",'*',["featured" => 1]);
-    $data['categories'] = $categories;
+    //$categories = $this->database->select("categories",'*',["featured" => 1]);
+    //$data['categories'] = $categories;
 
     return $this->view->render($response, 'tags.php', $data);
 
 });
-
 
 
 $app->get('/locationxml/{ids}/[{string}]', function (Request $request, Response $response, array $args) {
@@ -239,10 +312,7 @@ $app->get('/locationxml/{ids}/[{string}]', function (Request $request, Response 
         $site['header'] = ($site['header']=="" ? "../../default/thumbnail-header.jpg" : "thumbnail-header.jpg");
     }
 
-
     $data['sites'] = $sites;
-
-
 
     $this->view->render($response, 'locationxml.php', $data);
     //return $this->response->withHeader('Content-Type','text/xml');
@@ -250,10 +320,8 @@ $app->get('/locationxml/{ids}/[{string}]', function (Request $request, Response 
         ->withHeader('Content-Type', 'text/xml');
 });
 
-
+/*
 $app->get('/locationxml2/{ids}/{tags}/[{string}]', function (Request $request, Response $response, array $args) {
-    // Sample log message
-    //$this->logger->info("sitio '/' id =".$args['id']);
 
     $ids    = $args['ids'];
     $tags   = $args['tags'];
@@ -278,14 +346,6 @@ $app->get('/locationxml2/{ids}/{tags}/[{string}]', function (Request $request, R
             AND <sh.active> = 1
             ";
     }
-
-    /*if($string !=""); {
-        $query = $query . " AND <sh.name> LIKE '%".$string."%'";
-    }*/
-    //echo $query;
-
-
-
     
     $sites = $this->database->query($query)->fetchAll();
 
@@ -293,19 +353,13 @@ $app->get('/locationxml2/{ids}/{tags}/[{string}]', function (Request $request, R
         $site['header'] = ($site['header']=="" ? "../../default/thumbnail-header.jpg" : "thumbnail-header.jpg");
     }
 
-
     $data['sites'] = $sites;
 
-
-
     $this->view->render($response, 'locationxml.php', $data);
-    //return $this->response->withHeader('Content-Type','text/xml');
     return $response->withStatus(200)
         ->withHeader('Content-Type', 'text/xml');
 });
-
-
-
+*/
 
 $app->get('/locationjson/{ids}/{limit}/[{string}]', function (Request $request, Response $response, array $args) {
     // Sample log message
@@ -354,34 +408,34 @@ $app->get('/buscar/{ids}/[{string}]', function (Request $request, Response $resp
     //$this->logger->info("buscar '/' id =".$args['string']);
 
     $ids    = $args['ids'];
-    if(isset( $args['string'])) $string = $args['string'];
 
-    if(isset($args['string'])){
+    if(isset($args['string'])) {
+        $string = $args['string'];
         $sites = $this->database->select("categories",
-        [
-            "[><]shops" => ["id" => "categories_id"]
-        ],
-        [
-            "categories.category",
-            "categories.icon",
-            "shops.id",
-            "shops.name",
-            "shops.alias",
-            "shops.header",
-            "shops.logo",
-            "shops.address",
-            "shops.lat",
-            "shops.lng",
-            "shops.schedule"
-        ],
-        [
-            "categories.id"=> $ids,
-            "shops.name[~]" => $string,
-            "shops.active" => 1
-        ]
+            [
+                "[><]shops" => ["id" => "categories_id"]
+            ],
+            [
+                "categories.category",
+                "categories.icon",
+                "shops.id",
+                "shops.name",
+                "shops.alias",
+                "shops.header",
+                "shops.logo",
+                "shops.address",
+                "shops.lat",
+                "shops.lng",
+                "shops.schedule"
+            ],
+            [
+                "categories.id"=> $ids,
+                "shops.name[~]" => $string,
+                "shops.active" => 1
+            ]
         );
     }
-    else{
+    else {
         $sites = $this->database->select("categories",
         [
             "[><]shops" => ["id" => "categories_id"]
@@ -404,10 +458,6 @@ $app->get('/buscar/{ids}/[{string}]', function (Request $request, Response $resp
             "shops.active" => 1
         ]
         );
-        /*$query = "SELECT <st.id>, <st.nombre>, <st.alias>, <st.thumb>, <st.direccion>, <st.lat>, <st.lng>, <st.horario>, <ct.categoria>, <ct.icono>
-        FROM <sites> AS <st>
-        INNER JOIN <categories> AS <ct> ON <st.category_id> = <ct.id>
-        WHERE <ct.id> IN (".$ids.")";*/
     }
 
     foreach ($sites as &$site) {
@@ -424,7 +474,6 @@ $app->get('/buscar/{ids}/[{string}]', function (Request $request, Response $resp
     
     return $this->view->render($response, 'buscar.php', $data);
 });
-
 
 
 $app->post('/mensaje/',function(Request $request, Response $response, array $args) {

@@ -5,11 +5,9 @@
 <!--[if gt IE 8]><!-->
 <html lang="es">
 <!--<![endif]-->
-
 <head>
     <title>Tu Curauma</title>
     <?php include('layouts/head.php');?>
-
     <style>
     #map {
         height: 500px;
@@ -39,7 +37,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="<?= $baseUrl; ?>">Home</a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item active">
                                     <a class="nav-link" href="<?= $baseUrl."sites/"; ?>">Sitios</a>
                                 </li>
                                 <li class="nav-item">
@@ -52,7 +50,6 @@
             </div>
         </div>
     </section>
-
     <header class="sites-header">
         <div class="container text-center">
             <h1 class="nombre">Curauma</h1>
@@ -86,7 +83,7 @@
         </main>
     </section>
 
-    <section id="sites">
+    <!--section id="sites">
         <?php $sites = $data['sites']; ?>
         <?php //print_r($data) ?>
         <div class="container">
@@ -94,47 +91,108 @@
                 <div class="col-md-12">
                     <h3>Todo a un Click!</h3>
                 </div>
-                <?php if(count($sites)>0) : ?>
                 <?php foreach ($sites as $valor) { ?>
-                <div class="col-lg-3 col-sm-4 col-6">
-                    <a href="<?= $baseUrl."site/".$valor['id']."-".$valor['alias']; ?>">
-                        <div class="card mb-4 shadow-sm">
+                <div class="col-lg-4 col-sm-6 col-6">
+                    <div class="card mb-4 shadow-sm">
+                        <a href="<?= $baseUrl."site/".$valor['id_shops']."-".$valor['alias']; ?>">
                             <img class="card-img-top"
-                                src="<?=$baseUrl?>assets/images/tiendas/<?=$valor['id']?>/<?=$valor['thumb_header']?>"
+                                src="<?=$baseUrl?>assets/images/tiendas/<?=$valor['id_shops']?>/<?=$valor['thumb_header']?>"
                                 alt="<?=$valor['name']?>">
-
-                            <div class="card-body">
-                                <p class="category"><?=$valor['category']?></p>
-                                <!--img class="logo-card"
-                                    src="<?=$baseUrl?>assets/images/tiendas/<?=$valor['id']?>/<?=$valor['thumb_logo']?>"
-                                    alt="Logo<?=$valor['name']?>" width="100px" height="100px"-->
-                                <p class="card-text"><?=$valor['name']?><br />
-                                <small><i class="fas fa-map-marker-alt"></i> <?=$valor['address']?></small></p>
-                            </div>
+                        </a>
+                        <div class="card-body">
+                            <img class="logo-card d-none d-sm-block"
+                                src="<?=$baseUrl?>assets/images/tiendas/<?=$valor['id_shops']?>/<?=$valor['thumb_logo']?>"
+                                alt="<?=$valor['name']?>">
+                            <p class="card-text"><strong><?=$valor['name']?></strong><br />
+                                <?=$valor['category']?></p>
+                            <a href="<?= $baseUrl."site/".$valor['id_shops']."-".$valor['alias']; ?>"
+                                class="btn btn-success" role="button">Visitar</a>
                         </div>
-                    </a>
+                    </div>
                 </div>
                 <?php } ?>
-                <?php else :?>
-                <div class="col-lg-4 col-sm-6 col-12">
-                    Sin resultados
+            </div>
+        </div>
+    </section-->
+
+    <section id="sites">
+        <div class="container">
+            <div class="row" id="dimanic-shops">
+                <div class="col-md-12">
+                    <h3><?=$data['category'][0]?> <strong>Tu Curauma</strong></h3>
                 </div>
-                <?php endif; ?>
+            </div>
+        </div>
+    </section>
+
+    <section id="button-more ">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 pb-3 pt-3 mb-3 mt-3 text-center">
+                    <!--button type="button" class="btn btn-success btn-lg" onClick="cargar();">Ver Más Tiendas</button-->
+                    <input type="hidden" name="more" id="more" value="1">
+                </div>
 
             </div>
         </div>
     </section>
 
+    <?php
+    //$ids = $data['ids']; 
+    //print_r($data); ?>
+
     <?php include('layouts/footer.php');?>
 
+
     <script>
-    //$("#searchButton").onClick(alert("click"));
     function buscar() {
         var id = $("#inputCategoria").val();
         var text = $("#inputTexto").val();
-        //alert(id);
-        window.location.href = '<?= $baseUrl ?>buscar/' + id + '/' + text;
+        window.location.href = '<?=$baseUrl?>buscar/' + id + '/' + text;
     }
+
+    function cargar() {
+        num = $('input:hidden[name=more]').val();
+        //alert(num);
+        $.ajax({
+            type: 'GET',
+            url: '<?= $baseUrl; ?>locationjson/<?=$ids ?>/' + num + '/',
+            success: function(response) { // <= this is the change
+                //alert((num-1)*12);
+                var data = response; // <= going inside the data itself
+                largo = data.length;
+                if (num == 1) j = 1;
+                for (i = 0; i < largo; i++, j++) {
+                    output  = '<div class="col-lg-3 col-sm-4 col-6" id="site-' + j + '">';
+                    output += '<a href="<?= $baseUrl; ?>site/' + data[i]['id'] + '-' + data[i]['alias'] + '">';
+                    output += '<div class="card mb-4 shadow-sm">';
+                    output += '<img class="card-img-top" src="<?=$baseUrl?>assets/images/tiendas/' + data[i]['id'] + '/' + data[i]['header'] + '" alt="'+  data[i]['name'] +'">';
+                    output += '<div class="card-body">';
+                    output += '<!--img class="logo-card d-none d-sm-block" src="<?=$baseUrl; ?>assets/images/tiendas/' + data[i]['id'] + '/' + data[i]['logo'] + '" alt="' + data[i]['name'] + '"-->';
+                    output += '<p class="card-text">' + data[i]['name'] + '</br>';
+                    output += '<small><i class="fas fa-map-marker-alt"></i> ' + data[i]['address'] + '</small>' + '</p>';
+                    output += '</div>';
+                    output += '</div>';
+                    output += '</a>';
+                    output += '</div>';
+                    //(data[i]['name']);
+                    $("#dimanic-shops").append(output);
+                }
+                //(largo == j) ? alert("yes!"): alert("No");
+                $("#more").val(Number($("#more").val()) + 1);
+            }
+        });
+    }
+
+    $(function() {
+        cargar();
+
+        $(window).scroll(function() {
+            if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+                cargar();
+            }
+        });
+    });
     </script>
 </body>
 
