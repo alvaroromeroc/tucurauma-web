@@ -65,20 +65,18 @@
                 <div class="container ">
                     <div class="row">
                         <div class="col-lg-6 col-sm-6">
-                            <input class="form-control form-control-sm" type="text" id="inputTexto" name="inputTexto"
+                            <input class="form-control" type="text" id="inputTexto" name="inputTexto"
                                 value="" size="20" maxlength="50" placeholder="Ingrese un nombre" />
                         </div>
                         <div class="col-lg-4 col-sm-4">
-                            <select class="form-control form-control-sm" id="inputCategoria" name="inputCategoria">
+                            <select class="selectpicker form-control" id="inputCategoria" name="inputCategoria" multiple data-actions-box="true" data-size="6"> 
                                 <?php foreach ($categories as $key) { ?>
-                                <option value="<?=$key['id']?>"><?=$key['category']?></option>
+                                <option value="<?=$key['id']?>" selected><?=$key['category']?></option>
                                 <?php } ?>
                             </select>
                         </div>
                         <div class="col-lg-2 col-sm-2">
-                            <!--input class="form-control form-control-sm" type="button" id="searchButton" value="Buscar" onclick="buscar()"/-->
-                            <button class="form-control form-control-sm" type="button"
-                                onclick="buscar()" />Buscar</button>
+                            <button class="form-control" type="button" onclick="buscar()" />Buscar</button>
                         </div>
                     </div>
                 </div>

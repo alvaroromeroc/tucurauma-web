@@ -5,6 +5,7 @@
 <!--[if gt IE 8]><!-->
 <html lang="es">
 <!--<![endif]-->
+
 <head>
     <title>Tu Curauma</title>
     <?php include('layouts/head.php');?>
@@ -69,13 +70,13 @@ $related = $data['related'];
             <div class="row">
                 <div class="col-lg-6">
                     <h3><?=$site['name']?></h3>
+                    <p class=""><i class="fas fa-map-marker-alt"></i> <?=$site['address']?></p>
+                    <hr/>
                     <?php foreach ($tags as $tag) { ?>
                     <a href="<?=$baseUrl."etiquetas/".$tag['id']."-".$tag['title']."/"?>"
-                        class="badge badge-success"><?=$tag['title']?></a>
+                        class="badge badge-success"><i class="fas fa-tags"></i> <?=$tag['title']?></a>
                     <?php } ?>
-                    <p class="lead"><?=$site['description']?></p>
-                    <!--img src="<?= $baseUrl; ?>assets/sites/<?=$site['id']?>/<?=$site['header']?>"-->
-                    <p class="lead"><?=$site['address']?></p>
+                    <p class=""><?=$site['description']?></p>
                     <p class="text-strong">Horario:</p>
                     <p><?=$site['schedule']?>
                     </p>
@@ -151,22 +152,20 @@ $related = $data['related'];
                     <h3>Tiendas Destacadas</h3>
                 </div>
                 <?php foreach ($related as $rel_site) { ?>
-                <div class="col-lg-4 col-sm-6 col-12">
-                    <div class="card mb-4 shadow-sm">
-                        <a href="<?=$baseUrl?>site/<?=$rel_site['id']?>-<?=$rel_site['alias']?>">
+                <div class="col-lg-3 col-sm-4 col-6">
+                    <a href="<?= $baseUrl; ?>site/<?=$rel_site['id']?>-<?=$rel_site['alias']?>"
+                        title="<?=$rel_site['name']?>">
+                        <div class="card mb-4 shadow-sm">
                             <img class="card-img-top"
                                 src="<?=$baseUrl?>assets/images/tiendas/<?=$rel_site['id']?>/<?=$rel_site['thumb_header']?>"
                                 alt="<?=$rel_site['name']?>">
-                        </a>
-                        <div class="card-body">
-                            <img class="logo-card"
-                                src="<?=$baseUrl?>assets/images/tiendas/<?=$rel_site['id']?>/<?=$rel_site['thumb_logo']?>"
-                                alt="<?=$rel_site['name']?>">
-                            <p class="card-text"><?=$rel_site['name']?></p>
-                            <p><a href="<?= $baseUrl."site/".$rel_site['id']."-".$rel_site['alias']; ?>"
-                                    class="btn btn-success" role="button">Visitar</a></p>
+                            <div class="card-body">
+                                <p class="category"><?=$rel_site['category']?></p>
+                                <p class="card-text"><?=$rel_site['name']?><br />
+                                    <small><i class="fas fa-map-marker-alt"></i> <?=$rel_site['address']?></small></p>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <?php } ?>
             </div>

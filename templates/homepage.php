@@ -18,12 +18,9 @@
 
         <?php
     }
-
     ?>
     </style>
 </head>
-
-<!--body id="body"-->
 
 <body style="margin:0px; padding:0px;" onload="initMap()">
 
@@ -145,19 +142,19 @@ Welcome Slider
                 <div class="container ">
                     <div class="row">
                         <div class="col-lg-6 col-sm-6">
-                            <input class="form-control form-control-sm" type="text" id="inputTexto" name="inputTexto"
+                            <input class="form-control " type="text" id="inputTexto" name="inputTexto"
                                 value="" size="20" maxlength="50" placeholder="Ingrese un nombre" />
                         </div>
                         <div class="col-lg-4 col-sm-4">
-                            <select class="form-control form-control-sm" id="inputCategoria" name="inputCategoria">
+                            <select class="selectpicker form-control" id="inputCategoria" name="inputCategoria" multiple data-actions-box="true" data-size="6"> 
                                 <?php foreach ($categories as $key) { ?>
-                                <option value="<?=$key['id']?>"><?=$key['category']?></option>
+                                <option value="<?=$key['id']?>" selected><?=$key['category']?></option>
                                 <?php } ?>
                             </select>
                         </div>
                         <div class="col-lg-2 col-sm-2">
                             <!--input class="form-control form-control-sm" type="button" id="searchButtonMap" value="Buscar" onclick="buscar()"/-->
-                            <button class="form-control form-control-sm" type="button"
+                            <button class="form-control" type="button"
                                 onclick="buscar()" />Buscar</button>
                         </div>
                     </div>
@@ -206,7 +203,7 @@ Welcome Slider
     <!--
 PUBLICIDAD
 ==================================== -->
-    <section class="service-2 section-xs">
+    <!--section class="service-2 section-xs">
         <div class="container">
             <div class="row">
                 <div class="col-md-4 p-0">
@@ -227,9 +224,9 @@ PUBLICIDAD
                         <h4>Publicidad 3</h4>
                     </div>
                 </div>
-            </div> <!-- End row -->
-        </div> <!-- End container -->
-    </section> <!-- End section -->
+            </div>
+        </div> 
+    </section--> <!-- End section -->
 
 
 
@@ -285,13 +282,14 @@ Form Contact
                     <h3>Tiendas Destacadas</h3>
                 </div>
                 <?php foreach ($related as $rel_site) { ?>
-                <div class="col-lg-3 col-sm-4 col-6">
+                <div class="col-lg-3 col-sm-6 col-6">
                     <a href="<?= $baseUrl; ?>site/<?=$rel_site['id']?>-<?=$rel_site['alias']?>" title="<?=$rel_site['name']?>">
                         <div class="card mb-4 shadow-sm">
                             <img class="card-img-top"
                                 src="<?=$baseUrl?>assets/images/tiendas/<?=$rel_site['id']?>/<?=$rel_site['thumb_header']?>"
                                 alt="<?=$rel_site['name']?>">
                             <div class="card-body">
+                                <p class="category"><?=$rel_site['category']?></p>
                                 <p class="card-text"><?=$rel_site['name']?><br />
                                 <small><i class="fas fa-map-marker-alt"></i> <?=$rel_site['address']?></small></p>
                             </div>

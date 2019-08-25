@@ -31,6 +31,11 @@
 }
 
 
+/*=================================================================
+  Sites
+==================================================================*/
+
+
 
 #sites h3, #related h3, #products h3{
   color: #31231a;
@@ -56,10 +61,52 @@
   margin-top: 50px;
 }
 
+#sites a:hover .shadow-sm {
+  box-shadow: 0 .125rem 1.0rem rgba(0,0,0,.4)!important;
+}
+
+#sites .card-body {
+  padding: 1.25rem 0.75rem;
+}
+
+.card .category {
+  font-size: 85%;
+  margin-bottom: 5px;
+  color: #279326;
+  font-weight: 100;
+}
+
+.card-text small {
+  color: #717d88;
+  font-style: italic;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-top: 0.25rem;
+}
+
+
+/*=================================================================
+  Related
+==================================================================*/
+
+
+
 #related {
   padding: 30px 0;
   background: #f3f3f3;
 }
+
+
+#related a:hover .shadow-sm {
+  box-shadow: 0 .125rem 1.0rem rgba(0,0,0,.4)!important;
+}
+
+#related .card-body {
+  padding: 1.25rem 0.75rem;
+}
+
 
 #products {
   padding: 30px 0;
@@ -741,28 +788,6 @@ a:focus, a:hover {
 
 .single-page-header .breadcrumb li a {
   color: #31BB9E;
-}
-
-
-
-/*=================================================================
-  Listado Sitios
-==================================================================*/
-
-.card .category {
-  font-size: 85%;
-  margin-bottom: 5px;
-  color: #279326;
-  font-weight: 100;
-}
-
-.card-text small {
-  color: #717d88;
-  font-style: italic;
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 

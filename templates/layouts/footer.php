@@ -10,6 +10,8 @@
     <!-- Bootstrap -->
     <script src="<?= $baseUrl; ?>assets/js/popper.min.js"></script>
     <script src="<?= $baseUrl; ?>assets/js/bootstrap.min.js"></script>
+    <!-- Bootstrap Select-->
+    <script src="<?= $baseUrl; ?>assets/js/bootstrap-select.min.js"></script>
     <!-- Owl Carousel -->
     <!--script src="<?= $baseUrl; ?>assets/js/slick.min.js"></script-->
     <!-- Smooth Scroll js -->

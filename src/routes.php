@@ -19,10 +19,23 @@ $app->get('/', function (Request $request, Response $response, array $args) {
     //$tags = $this->database->select("tags",'*',["ORDER"=>["title"=>"ASC"]]);
 
     // tiendas relacionadas
-    $related = $this->database->select("shops",'*',
+    $related = $this->database->rand("shops",
         [
-            "active" => 1,
-            "featured" => 1,
+            "[><]categories" => ["shops.categories_id" => "id"]
+        ],
+        [
+            "categories.id (id_category)",
+            "categories.category",
+            "shops.id (id)",
+            "shops.name",
+            "shops.header",
+            "shops.logo",
+            "shops.alias",
+            "shops.address",
+        ],
+        [
+            "shops.active" => 1,
+            "shops.featured" => 1,
             "LIMIT" => 4
         ]
     );
@@ -60,12 +73,14 @@ $app->get('/site/{id}[/]', function (Request $request, Response $response, array
     $site = $this->database->get("shops",'*',
         ["id" => $id, "active" => 1]
     );
-    if ($site['header']=="") $site['header'] = "../../default/header.jpg";
-    if ($site['logo']=="") $site['logo'] = "../../default/logo.jpg";
+    
 
     if(($site['id'] != $id ) || ($id == 0)):
         return $this->view->render($response, '404.php');
     else:
+        if ($site['header']=="") $site['header'] = "../../default/header.jpg";
+        if ($site['logo']=="") $site['logo'] = "../../default/logo.jpg";
+
         $category = $site['categories_id'];
 
         // productos de la tienda
@@ -79,13 +94,25 @@ $app->get('/site/{id}[/]', function (Request $request, Response $response, array
         }        
 
         // tiendas relacionadas
-        $related = $this->database->select("shops",'*',
+        $related = $this->database->rand("shops",
             [
-                "categories_id" => $category,
-                "id[!]" => $id,
-                "active" => 1,
-                "featured" => 1,
-                "LIMIT" => 3
+                "[><]categories" => ["shops.categories_id" => "id"]
+            ],
+            [
+                "categories.id (id_category)",
+                "categories.category",
+                "shops.id (id)",
+                "shops.name",
+                "shops.header",
+                "shops.logo",
+                "shops.alias",
+                "shops.address",
+            ],            
+            [
+                "shops.id[!]" => $id,
+                "shops.active" => 1,
+                "shops.featured" => 1,
+                "LIMIT" => 4
             ]
         );
         foreach ($related as &$rel) {
@@ -95,24 +122,25 @@ $app->get('/site/{id}[/]', function (Request $request, Response $response, array
 
         //etiquetas 
         $tags = $this->database->select("shops_tags",
-        [
-            "[><]tags" => ["tag_id" => "id"]
-        ],
-        [
-            "tags.id",
-            "tags.title"
-        ],
-        [
-            "shops_tags.shop_id"=> $id
-        ]
-    );
+            [
+                "[><]tags" => ["tag_id" => "id"]
+            ],
+            [
+                "tags.id",
+                "tags.title"
+            ],
+            [
+                "shops_tags.shop_id"=> $id
+            ]
+        );
 
         
-        // cargo la variable
+        // cargo los data
         $data['site'] = $site;
         $data['tags'] = $tags;
         $data['products'] = $products;
         $data['related'] = $related;
+
         return $this->view->render($response, 'site.php', $data);
     endif;
 });
@@ -123,7 +151,6 @@ $app->get('/sites/[{category}/]', function (Request $request, Response $response
         $this->logger->info("sites '/' id =".$args['category']);
     else 
         $this->logger->info("sites '/' id = index");
-    // arreglar esto url http://localhost/slim-5/sites/ (en el footer)
 
     if(isset($args['category'])):
         $id = (int)$args['category'];
@@ -254,24 +281,25 @@ $app->get('/etiquetas/{id}[/]', function (Request $request, Response $response, 
     if(isset($args['id'])):
         $id = (int)$args['id'];
         $sites = $this->database->select("shops_tags",
-        [
-            "[><]shops" => ["shop_id" => "id"],
-            "[><]categories" => ["shops.categories_id" => "id"]
-        ],
-        [
-            "shops.id (id_shops)",
-            "shops.name",
-            "shops.header",
-            "shops.logo",
-            "shops.alias",
-            "shops.address",
-            "categories.category",
-        ],
-        [
-            "shops_tags.tag_id"=> $id,
-            "shops.active" => 1
-        ]
-    );
+            [
+                "[><]shops" => ["shop_id" => "id"],
+                "[><]categories" => ["shops.categories_id" => "id"]
+            ],
+            [
+                "shops.id (id_shops)",
+                "shops.name",
+                "shops.header",
+                "shops.logo",
+                "shops.alias",
+                "shops.address",
+                "categories.category",
+            ],
+            [
+                "shops_tags.tag_id"=> $id,
+                "shops.active" => 1
+            ]
+        );
+        $data['tag'] = $this->database->get("tags",'*',["id"=>$id]);
     else:
         return $this->view->render($response, '404.php');
     endif;
@@ -287,8 +315,10 @@ $app->get('/etiquetas/{id}[/]', function (Request $request, Response $response, 
     /*if(isset($args['category'])){ $data['ids'] = $id;}
     else {$data['ids'] = 0;}*/
     
-    //$categories = $this->database->select("categories",'*',["featured" => 1]);
-    //$data['categories'] = $categories;
+    $categories = $this->database->select("categories",'*',["featured" => 1]);
+    $data['categories'] = $categories;
+
+    
 
     return $this->view->render($response, 'tags.php', $data);
 
@@ -315,51 +345,11 @@ $app->get('/locationxml/{ids}/[{string}]', function (Request $request, Response 
     $data['sites'] = $sites;
 
     $this->view->render($response, 'locationxml.php', $data);
-    //return $this->response->withHeader('Content-Type','text/xml');
+
     return $response->withStatus(200)
         ->withHeader('Content-Type', 'text/xml');
 });
 
-/*
-$app->get('/locationxml2/{ids}/{tags}/[{string}]', function (Request $request, Response $response, array $args) {
-
-    $ids    = $args['ids'];
-    $tags   = $args['tags'];
-    if(isset( $args['string'])) $string = $args['string']; else $string = "";
-    
-
-    if($tags=="0") { //sin tags
-        $query = "SELECT <sh.id>, <sh.name>, <sh.alias>, <sh.header>, <sh.address>, <sh.lat>, <sh.lng>, <sh.schedule>, <ct.category>, <ct.icon>
-        FROM <shops> AS <sh>
-        INNER JOIN <categories> AS <ct> ON <sh.categories_id> = <ct.id>
-        WHERE <ct.id> IN (".$ids.") AND <sh.active> = 1";
-    }
-    else { //multiples tags
-        $query = "SELECT <sh.id>, <sh.name>, <sh.alias>, <sh.header>, <sh.address>, <sh.lat>, <sh.lng>, <sh.schedule>, <ct.category>, <ct.icon>
-        FROM <tags> AS <tg>
-            INNER JOIN <shops_tags> AS <st> ON <tg.id> = <st.tag_id>
-            INNER JOIN <shops> AS <sh> ON <st.shop_id> = <sh.id>
-            INNER JOIN <categories> AS <ct> ON <sh.categories_id> = <ct.id>
-        WHERE
-            <ct.id> IN (".$ids.")
-            AND <tg.id> IN (".$tags.")
-            AND <sh.active> = 1
-            ";
-    }
-    
-    $sites = $this->database->query($query)->fetchAll();
-
-    foreach ($sites as &$site) {
-        $site['header'] = ($site['header']=="" ? "../../default/thumbnail-header.jpg" : "thumbnail-header.jpg");
-    }
-
-    $data['sites'] = $sites;
-
-    $this->view->render($response, 'locationxml.php', $data);
-    return $response->withStatus(200)
-        ->withHeader('Content-Type', 'text/xml');
-});
-*/
 
 $app->get('/locationjson/{ids}/{limit}/[{string}]', function (Request $request, Response $response, array $args) {
     // Sample log message
@@ -407,7 +397,8 @@ $app->get('/buscar/{ids}/[{string}]', function (Request $request, Response $resp
     // Sample log message
     //$this->logger->info("buscar '/' id =".$args['string']);
 
-    $ids    = $args['ids'];
+    $ids_aux    = $args['ids'];
+    $ids = explode(",", $ids_aux);
 
     if(isset($args['string'])) {
         $string = $args['string'];
@@ -437,26 +428,26 @@ $app->get('/buscar/{ids}/[{string}]', function (Request $request, Response $resp
     }
     else {
         $sites = $this->database->select("categories",
-        [
-            "[><]shops" => ["id" => "categories_id"]
-        ],
-        [
-            "categories.category",
-            "categories.icon",
-            "shops.id",
-            "shops.name",
-            "shops.alias",
-            "shops.header",
-            "shops.logo",
-            "shops.address",
-            "shops.lat",
-            "shops.lng",
-            "shops.schedule"
-        ],
-        [
-            "categories.id"=> $ids,
-            "shops.active" => 1
-        ]
+            [
+                "[><]shops" => ["id" => "categories_id"]
+            ],
+            [
+                "categories.category",
+                "categories.icon",
+                "shops.id",
+                "shops.name",
+                "shops.alias",
+                "shops.header",
+                "shops.logo",
+                "shops.address",
+                "shops.lat",
+                "shops.lng",
+                "shops.schedule"
+            ],
+            [
+                "categories.id"=> $ids,
+                "shops.active" => 1
+            ]
         );
     }
 
